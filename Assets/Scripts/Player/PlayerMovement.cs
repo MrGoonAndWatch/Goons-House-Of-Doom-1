@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (PlayerStatus.LockMovement)
+        if (PlayerStatus.IsMovementPrevented())
             return;
 
         if (PlayerStatus.QuickTurning)

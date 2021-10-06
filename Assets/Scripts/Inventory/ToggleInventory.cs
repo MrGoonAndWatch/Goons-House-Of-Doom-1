@@ -4,10 +4,14 @@ public class ToggleInventory : MonoBehaviour
 {
     public GameObject MenuPrefab;
 
+    private PlayerStatus _playerStatus;
+
     private bool _menuEnabled;
 
     void Start()
     {
+        _playerStatus = FindObjectOfType<PlayerStatus>();
+
         MenuPrefab.SetActive(false);
     }
 
@@ -15,8 +19,15 @@ public class ToggleInventory : MonoBehaviour
     {
         if (Input.GetButtonDown("Menu"))
         {
-            _menuEnabled = !_menuEnabled;
-            MenuPrefab.SetActive(_menuEnabled);
+            ToggleMenu();
         }
+    }
+
+    public void ToggleMenu()
+    {
+        _menuEnabled = !_menuEnabled;
+        _playerStatus.MenuOpened = _menuEnabled;
+
+        MenuPrefab.SetActive(_menuEnabled);
     }
 }
