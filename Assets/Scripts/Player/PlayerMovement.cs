@@ -50,8 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessNormalMovement()
     {
-        var horizontalInput = Input.GetAxis("Horizontal");
-        var verticalInput = Input.GetAxis("Vertical");
+        var horizontalInput = Input.GetAxis(GameConstants.Controls.HorizontalMovement);
+        var verticalInput = Input.GetAxis(GameConstants.Controls.VerticalMovement);
 
         if (Math.Abs(horizontalInput) > RotationDeadzone)
         {
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (verticalInput > MovementDeadzone)
         {
-            var speed = Input.GetButton("Run") ? RunSpeed : WalkSpeed;
+            var speed = Input.GetButton(GameConstants.Controls.Run) ? RunSpeed : WalkSpeed;
             transform.localPosition += transform.forward * speed * Time.deltaTime;
         }
         else if (verticalInput < -MovementDeadzone)
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localPosition -= transform.forward * WalkBackwardsSpeed * Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Run") && verticalInput < 0)
+        if (Input.GetButtonDown(GameConstants.Controls.Run) && verticalInput < 0)
         {
             _quickTurnTargetRotation = transform.eulerAngles + 180f * Vector3.up;
             _quickTurnTargetRotation = new Vector3(_quickTurnTargetRotation.x % 360, _quickTurnTargetRotation.y % 360, _quickTurnTargetRotation.z % 360);

@@ -8,6 +8,7 @@ public class PlayerInventory : MonoBehaviour
     public ToggleInventory ToggleInventory;
 
     public ItemSlot[] Items;
+    public bool[] ItemDirty;
     public ItemCursor ItemCursor;
     public GameObject MenuActionRoot;
     public MenuAction[] MenuActions;
@@ -27,6 +28,11 @@ public class PlayerInventory : MonoBehaviour
     void Start()
     {
         _playerStatus = FindObjectOfType<PlayerStatus>();
+        ItemDirty = new bool[6];
+        for (var i = 0; i < ItemDirty.Length; i++)
+        {
+            ItemDirty[i] = true;
+        }
     }
 
     // TODO: Call this. Use event system?
@@ -44,19 +50,41 @@ public class PlayerInventory : MonoBehaviour
         if (!_playerStatus.MenuOpened)
             return;
 
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
+        for (var i = 0; i < ItemDirty.Length; i++)
+        {
+            if (!ItemDirty[i])
+                continue;
+
+            UpdateItemUi(i);
+        }
+
+        var horizontal = Input.GetAxis(GameConstants.Controls.HorizontalMovement);
+        var vertical = Input.GetAxis(GameConstants.Controls.VerticalMovement);
 
         if (_actionMenuOpen && !_combiningItems)
             HandleActionCursorMovement(vertical);
         else
             HandleItemCursorMovement(horizontal, vertical);
 
-        if (Input.GetButtonDown("Action"))
+        if (Input.GetButtonDown(GameConstants.Controls.Action))
             HandleConfirmPressed();
 
-        if (Input.GetButtonDown("Aim"))
+        if (Input.GetButtonDown(GameConstants.Controls.Aim))
             HandleBackPressed();
+    }
+
+    void UpdateItemUi(int i)
+    {
+        var targetItem = Items[i];
+        if (targetItem.Item == null)
+            targetItem.ItemSprite.color = Color.clear;
+        else
+        {
+            targetItem.ItemSprite.texture = targetItem.Item.MenuIcon;
+            targetItem.ItemSprite.color = Color.white;
+        }
+
+        ItemDirty[i] = false;
     }
 
     void HandleConfirmPressed()
@@ -201,7 +229,9 @@ public class PlayerInventory : MonoBehaviour
         switch (action)
         {
             case MenuAction.MenuActionType.Use:
-                Items[_currentItemIndex].Item.UseItem();
+                var usedItem = Items[_currentItemIndex].Item.UseItem();
+                if (usedItem)
+                    UsedItem();
                 CloseActionMenu();
                 break;
             case MenuAction.MenuActionType.Combine:
@@ -214,6 +244,7 @@ public class PlayerInventory : MonoBehaviour
                 break;
             case MenuAction.MenuActionType.Discard:
                 Items[_currentItemIndex].DiscardItem();
+                ItemDirty[_currentItemIndex] = true;
                 CloseActionMenu();
                 break;
         }
@@ -228,6 +259,8 @@ public class PlayerInventory : MonoBehaviour
     void CombineItems(int itemA, int itemB)
     {
         Items[itemA].Combine(Items[itemB]);
+        ItemDirty[itemA] = true;
+        ItemDirty[itemB] = true;
         CloseActionMenu();
     }
 
@@ -237,5 +270,33 @@ public class PlayerInventory : MonoBehaviour
         UpdateActionCursorPosition();
         MenuActionRoot.SetActive(true);
         _actionMenuOpen = true;
+    }
+
+    public void AddItem(Item item)
+    {
+        var i = 0;
+        foreach (var itemSlot in Items)
+        {
+            if (itemSlot.Item == null)
+            {
+                itemSlot.Item = item;
+                ItemDirty[i] = true;
+                break;
+            }
+            i++;
+        }
+    }
+
+    void UsedItem()
+    {
+        if (Items[_currentItemIndex].Item.IsStackable())
+        {
+            Items[_currentItemIndex].Qty--;
+            if (Items[_currentItemIndex].Qty <= 0)
+                Items[_currentItemIndex].DiscardItem();
+        }
+        else
+            Items[_currentItemIndex].DiscardItem();
+        ItemDirty[_currentItemIndex] = true;
     }
 }

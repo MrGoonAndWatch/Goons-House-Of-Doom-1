@@ -7,6 +7,6 @@ public abstract class Item: MonoBehaviour
     // TODO: Check if this is the right way to store this, can it be staticly defined by inherited classes?
     public Texture2D MenuIcon;
 
-    public abstract void UseItem();
+    public abstract bool UseItem();
     public abstract ComboResult Combine(Item otherItem);
 }

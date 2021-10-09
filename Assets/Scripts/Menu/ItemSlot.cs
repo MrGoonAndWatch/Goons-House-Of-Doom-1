@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour
 {
     public int Qty;
     public Item Item;
     public RectTransform RectTransform;
+    public RawImage ItemSprite;
 
     void Start()
     {
