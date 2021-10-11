@@ -54,10 +54,14 @@ public class PlayerMovement : MonoBehaviour
         var verticalInput = Input.GetAxis(GameConstants.Controls.VerticalMovement);
 
         if (Math.Abs(horizontalInput) > RotationDeadzone)
-        {
             transform.Rotate(0, horizontalInput * RotationSpeed * Time.deltaTime, 0);
-        }
 
+        if(!PlayerStatus.Aiming)
+            ProcessVerticalInput(verticalInput);
+    }
+
+    private void ProcessVerticalInput(float verticalInput)
+    {
         if (verticalInput > MovementDeadzone)
         {
             var speed = Input.GetButton(GameConstants.Controls.Run) ? RunSpeed : WalkSpeed;
@@ -71,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown(GameConstants.Controls.Run) && verticalInput < 0)
         {
             _quickTurnTargetRotation = transform.eulerAngles + 180f * Vector3.up;
-            _quickTurnTargetRotation = new Vector3(_quickTurnTargetRotation.x % 360, _quickTurnTargetRotation.y % 360, _quickTurnTargetRotation.z % 360);
+            _quickTurnTargetRotation = new Vector3(_quickTurnTargetRotation.x % 360, _quickTurnTargetRotation.y % 360,
+                _quickTurnTargetRotation.z % 360);
             PlayerStatus.QuickTurning = true;
         }
     }

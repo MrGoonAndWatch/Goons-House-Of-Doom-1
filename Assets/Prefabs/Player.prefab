@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3144376596277557081}
   - component: {fileID: 3144376596277557080}
   - component: {fileID: 3144376596277557159}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,8 @@ GameObject:
   - component: {fileID: 3144376596437122939}
   - component: {fileID: 3144376596437122940}
   - component: {fileID: 3144376596437122941}
-  m_Layer: 0
+  - component: {fileID: 3632253517479895736}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,8 +167,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09034864520699a41a7e0988f66f7ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EquipedWeapon: {fileID: 0}
+  Health: 0
+  MenuOpened: 0
   LockMovement: 0
   QuickTurning: 0
+  TakingDamage: 0
+  Aiming: 0
+  Shooting: 0
 --- !u!54 &3144376596437122940
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -197,6 +204,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.3173, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3632253517479895736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3144376596437122936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30fc3915b90fcd74d9ae644cbfb282f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerTransform: {fileID: 3144376596437122937}
+  HitscanLayers:
+    serializedVersion: 2
+    m_Bits: 23
 --- !u!1 &3144376596531278718
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +233,7 @@ GameObject:
   - component: {fileID: 3144376596531278705}
   - component: {fileID: 3144376596531278704}
   - component: {fileID: 3144376596531278707}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1065623111073569635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ActionHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

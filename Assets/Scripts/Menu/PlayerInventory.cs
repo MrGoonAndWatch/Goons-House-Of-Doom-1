@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerInventory : MonoBehaviour
     public ToggleInventory ToggleInventory;
 
     public ItemSlot[] Items;
+    public Text[] ItemQtys;
     public bool[] ItemDirty;
     public ItemCursor ItemCursor;
     public GameObject MenuActionRoot;
@@ -24,6 +26,9 @@ public class PlayerInventory : MonoBehaviour
 
     private int _currentActionIndex;
     private int _comboSelectionIndex;
+    
+    public RawImage EquipSlot;
+    public bool EquipDirty;
 
     void Start()
     {
@@ -33,6 +38,8 @@ public class PlayerInventory : MonoBehaviour
         {
             ItemDirty[i] = true;
         }
+
+        EquipDirty = true;
     }
 
     // TODO: Call this. Use event system?
@@ -52,11 +59,11 @@ public class PlayerInventory : MonoBehaviour
 
         for (var i = 0; i < ItemDirty.Length; i++)
         {
-            if (!ItemDirty[i])
-                continue;
-
-            UpdateItemUi(i);
+            if (ItemDirty[i])
+                UpdateItemUi(i);
         }
+        if (EquipDirty)
+            UpdateEquipUi();
 
         var horizontal = Input.GetAxis(GameConstants.Controls.HorizontalMovement);
         var vertical = Input.GetAxis(GameConstants.Controls.VerticalMovement);
@@ -84,7 +91,19 @@ public class PlayerInventory : MonoBehaviour
             targetItem.ItemSprite.color = Color.white;
         }
 
+        ItemQtys[i].text = targetItem.GetQtyDisplay();
         ItemDirty[i] = false;
+    }
+
+    void UpdateEquipUi()
+    {
+        if (_playerStatus.EquipedWeapon == null)
+            EquipSlot.color = Color.clear;
+        else
+        {
+            EquipSlot.texture = _playerStatus.EquipedWeapon.MenuIcon;
+            EquipSlot.color = Color.white;
+        }
     }
 
     void HandleConfirmPressed()
@@ -298,5 +317,13 @@ public class PlayerInventory : MonoBehaviour
         else
             Items[_currentItemIndex].DiscardItem();
         ItemDirty[_currentItemIndex] = true;
+    }
+
+    public void RefreshItemUi()
+    {
+        for (var i = 0; i < ItemDirty.Length; i++)
+        {
+            ItemDirty[i] = true;
+        }
     }
 }

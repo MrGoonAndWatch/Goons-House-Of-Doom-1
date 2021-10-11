@@ -39,4 +39,18 @@ public class ItemSlot : MonoBehaviour
             itemB.Item = comboResult.ItemB;
         }
     }
+
+    public string GetQtyDisplay()
+    {
+        if (Item == null)
+            return "";
+
+        var weapon = Item as Weapon;
+        if (weapon?.ShowQty() ?? false)
+            return $"{weapon.Ammo}";
+        if (Item.IsStackable())
+            return $"{Qty}";
+
+        return "";
+    }
 }

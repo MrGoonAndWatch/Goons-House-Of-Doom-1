@@ -6,7 +6,7 @@ public class PickupItem : MonoBehaviour
 {
     public PlayerInventory Inventory;
 
-    private List<Item> TouchingItems;
+    private List<Item> _touchingItems;
 
     void Start()
     {
@@ -15,7 +15,7 @@ public class PickupItem : MonoBehaviour
             Inventory = FindObjectOfType<PlayerInventory>();
         }
 
-        TouchingItems = new List<Item>();
+        _touchingItems = new List<Item>();
     }
 
     void OnTriggerEnter(Collider c)
@@ -24,7 +24,7 @@ public class PickupItem : MonoBehaviour
         if (item == null)
             return;
 
-        TouchingItems.Add(item);
+        _touchingItems.Add(item);
     }
 
     void OnTriggerExit(Collider c)
@@ -33,12 +33,12 @@ public class PickupItem : MonoBehaviour
         if (item == null)
             return;
 
-        TouchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
+        _touchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
     }
     
     void Update()
     {
-        if (TouchingItems.Any() &&
+        if (_touchingItems.Any() &&
             !Input.GetButton(GameConstants.Controls.Aim) &&
             Input.GetButtonDown(GameConstants.Controls.Action))
             PickupCurrentItem();
@@ -46,7 +46,7 @@ public class PickupItem : MonoBehaviour
 
     void PickupCurrentItem()
     {
-        var validItems = TouchingItems.Where(i => i != null).ToArray();
+        var validItems = _touchingItems.Where(i => i != null).ToArray();
         if (!validItems.Any())
             return;
 
@@ -54,6 +54,6 @@ public class PickupItem : MonoBehaviour
         Inventory.AddItem(item);
         item.gameObject.SetActive(false);
 
-        TouchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
+        _touchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
     }
 }

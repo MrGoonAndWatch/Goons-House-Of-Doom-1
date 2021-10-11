@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
+    public Weapon EquipedWeapon;
+
     public double Health;
     public const double MaxHealth = 200.22;
 
@@ -10,6 +12,8 @@ public class PlayerStatus : MonoBehaviour
     public bool LockMovement;
     public bool QuickTurning;
     public bool TakingDamage;
+    public bool Aiming;
+    public bool Shooting;
 
     public void AddHealth(double value)
     {
@@ -38,7 +42,7 @@ public class PlayerStatus : MonoBehaviour
 
     public bool IsMovementPrevented()
     {
-        return MenuOpened || LockMovement || TakingDamage;
+        return MenuOpened || LockMovement || TakingDamage || Shooting;
     }
 
     public enum HealthStatus
