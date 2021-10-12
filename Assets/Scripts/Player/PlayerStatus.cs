@@ -16,6 +16,11 @@ public class PlayerStatus : MonoBehaviour
     public bool Aiming;
     public bool Shooting;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         // TODO: Load this so your health doesn't reset between rooms!

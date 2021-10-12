@@ -32,16 +32,8 @@ public class Door : MonoBehaviour
     {
         if (_unlocked)
         {
-            // TODO: Load position & rotation of player, maybe trigger cam change too?
-            if (DoorLoadType == DoorLoadType.None)
-            {
-                SceneManager.LoadScene(GoesToRoom);
-            }
-            else
-            {
-                SceneManager.LoadScene(DoorLoadType.ToString());
-            }
-            
+            var sceneChanger = FindObjectOfType<SceneChanger>();
+            sceneChanger.ChangeScene(GoesToRoom, StartAtPosition, StartAtAngle, DoorLoadType);
         }
         else
             _textReader.ReadText(LockedText);
