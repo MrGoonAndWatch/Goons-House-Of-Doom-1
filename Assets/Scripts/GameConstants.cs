@@ -28,3 +28,9 @@ public enum KeyType
     None = 0,
     WardrobeKey = 1,
 }
+
+public enum DoorLoadType
+{
+    None = 0,
+    WoodDoor1 = 1,
+}

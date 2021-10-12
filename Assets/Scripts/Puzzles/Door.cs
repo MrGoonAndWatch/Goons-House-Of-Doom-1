@@ -1,8 +1,14 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
+    public string GoesToRoom;
+    public DoorLoadType DoorLoadType;
+    public Vector3 StartAtPosition;
+    public Vector3 StartAtAngle;
+
     public string[] LockedText;
     public string[] UnlockText;
 
@@ -26,8 +32,16 @@ public class Door : MonoBehaviour
     {
         if (_unlocked)
         {
-            // TODO: Load room.
-            throw new NotImplementedException();
+            // TODO: Load position & rotation of player, maybe trigger cam change too?
+            if (DoorLoadType == DoorLoadType.None)
+            {
+                SceneManager.LoadScene(GoesToRoom);
+            }
+            else
+            {
+                SceneManager.LoadScene(DoorLoadType.ToString());
+            }
+            
         }
         else
             _textReader.ReadText(LockedText);
