@@ -11,3 +11,20 @@
         public const string Run = "Run";
     }
 }
+
+public enum HealthStatus
+{
+    None = 0,
+    Dead,
+    Special,
+    SpeedyBoi,
+    BadTummyAche,
+    TummyAche,
+    Healthy
+}
+
+public enum KeyType
+{
+    None = 0,
+    WardrobeKey = 1,
+}

@@ -9,11 +9,18 @@ public class PlayerStatus : MonoBehaviour
     public const double MaxHealth = 200.22;
 
     public bool MenuOpened;
+    public bool Reading;
     public bool LockMovement;
     public bool QuickTurning;
     public bool TakingDamage;
     public bool Aiming;
     public bool Shooting;
+
+    void Start()
+    {
+        // TODO: Load this so your health doesn't reset between rooms!
+        Health = MaxHealth;
+    }
 
     public void AddHealth(double value)
     {
@@ -42,17 +49,11 @@ public class PlayerStatus : MonoBehaviour
 
     public bool IsMovementPrevented()
     {
-        return MenuOpened || LockMovement || TakingDamage || Shooting;
+        return MenuOpened || LockMovement || TakingDamage || Shooting || Reading;
     }
 
-    public enum HealthStatus
+    public bool CanInteract()
     {
-        None = 0,
-        Dead,
-        Special,
-        SpeedyBoi,
-        BadTummyAche,
-        TummyAche,
-        Healthy
+        return !MenuOpened && !Reading && !TakingDamage && !Shooting;
     }
 }

@@ -252,6 +252,7 @@ public class PlayerInventory : MonoBehaviour
                 if (usedItem)
                     UsedItem();
                 CloseActionMenu();
+                ToggleInventory.ToggleMenu();
                 break;
             case MenuAction.MenuActionType.Combine:
                 _combiningItems = true;
@@ -288,6 +289,7 @@ public class PlayerInventory : MonoBehaviour
         _currentActionIndex = 0;
         UpdateActionCursorPosition();
         MenuActionRoot.SetActive(true);
+        UpdateActionCursorPosition();
         _actionMenuOpen = true;
     }
 

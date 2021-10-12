@@ -7,7 +7,7 @@ public class PlayerStatusDisplay : MonoBehaviour
     public Image StatusIcon;
     public Text StatusText;
 
-    private PlayerStatus.HealthStatus _currentStatus;
+    private HealthStatus _currentStatus;
 
     void Start()
     {
@@ -24,32 +24,32 @@ public class PlayerStatusDisplay : MonoBehaviour
         }
     }
 
-    void UpdateUi(PlayerStatus.HealthStatus status)
+    void UpdateUi(HealthStatus status)
     {
         // TODO: Use actual sprites here instead of just changing color!
         switch (status)
         {
-            case PlayerStatus.HealthStatus.Dead:
+            case HealthStatus.Dead:
                 StatusText.text = "Dead Lole";
                 StatusText.color = Color.red;
                 StatusIcon.color = Color.red;
                 break;
-            case PlayerStatus.HealthStatus.Special:
+            case HealthStatus.Special:
                 StatusText.text = "Special";
                 StatusText.color = Color.red;
                 StatusIcon.color = Color.red;
                 break;
-            case PlayerStatus.HealthStatus.BadTummyAche:
+            case HealthStatus.BadTummyAche:
                 StatusText.text = "Really Bad Tummy Ache";
                 StatusText.color = new Color(191, 127, 0);
                 StatusIcon.color = new Color(191, 127, 0);
                 break;
-            case PlayerStatus.HealthStatus.TummyAche:
+            case HealthStatus.TummyAche:
                 StatusText.text = "Tummy Ache";
                 StatusText.color = Color.yellow;
                 StatusIcon.color = Color.yellow;
                 break;
-            case PlayerStatus.HealthStatus.Healthy:
+            case HealthStatus.Healthy:
                 StatusText.text = "Healthy";
                 StatusText.color = Color.green;
                 StatusIcon.color = Color.green;
