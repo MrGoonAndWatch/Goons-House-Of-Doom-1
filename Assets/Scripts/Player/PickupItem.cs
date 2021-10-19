@@ -18,6 +18,11 @@ public class PickupItem : MonoBehaviour
         _touchingItems = new List<Item>();
     }
 
+    public void ResetState()
+    {
+        _touchingItems.RemoveAll(i => true);
+    }
+
     void OnTriggerEnter(Collider c)
     {
         var item = c.GetComponent<Item>();

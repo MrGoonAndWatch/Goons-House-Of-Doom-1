@@ -9,6 +9,11 @@
         _useKey = FindObjectOfType<UseKey>();
     }
 
+    public override string GetPrefabPath()
+    {
+        return ItemPrefabFolderPath + "BlueKey";
+    }
+
     public override bool IsStackable()
     {
         return false;
@@ -21,6 +26,9 @@
 
     public override bool UseItem()
     {
+        // HACK: when key is created by DataSaver Start() is not called and this doesn't get properly initialized.
+        if (_useKey == null)
+            _useKey = FindObjectOfType<UseKey>();
         _useKey.Use(this);
         return false;
     }

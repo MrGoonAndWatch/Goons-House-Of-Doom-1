@@ -33,7 +33,13 @@ public class Door : MonoBehaviour
         if (_unlocked)
         {
             var sceneChanger = FindObjectOfType<SceneChanger>();
-            sceneChanger.ChangeScene(GoesToRoom, StartAtPosition, StartAtAngle, DoorLoadType);
+            var sceneChangeInfo = new SceneLoadData
+            {
+                TargetScene = GoesToRoom,
+                LoadPosition = StartAtPosition,
+                LoadRotation = StartAtAngle,
+            };
+            sceneChanger.ChangeScene(sceneChangeInfo, DoorLoadType);
         }
         else
             _textReader.ReadText(LockedText);

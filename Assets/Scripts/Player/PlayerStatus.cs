@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -16,9 +17,12 @@ public class PlayerStatus : MonoBehaviour
     public bool Aiming;
     public bool Shooting;
 
+    public List<int> KilledEnemies;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        KilledEnemies = new List<int>();
     }
 
     void Start()

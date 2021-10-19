@@ -14,4 +14,9 @@
     {
         return 2.0f;
     }
+
+    public override string GetPrefabPath()
+    {
+        return ItemPrefabFolderPath + "Handgun";
+    }
 }

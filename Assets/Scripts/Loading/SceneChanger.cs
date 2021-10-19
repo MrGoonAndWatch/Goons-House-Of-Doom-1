@@ -3,37 +3,44 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    private string _targetScene;
-    private Vector3 _loadPosition;
-    private Vector3 _loadRotation;
+    public DataSaver DataSaver;
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        if (DataSaver == null)
+            DataSaver = FindObjectOfType<DataSaver>();
     }
 
-    public void ChangeScene(string targetScene, Vector3 loadPosition, Vector3 loadRotation, DoorLoadType doorScene = DoorLoadType.None)
+    public void ChangeScene(SceneLoadData sceneLoadData, DoorLoadType doorScene = DoorLoadType.None)
     {
-        _targetScene = targetScene;
-        _loadPosition = loadPosition;
-        _loadRotation = loadRotation;
-        
+        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerInventory = FindObjectOfType<PlayerInventory>();
+        DataSaver.SaveGameStateFromScene(playerStatus, playerInventory, sceneLoadData);
+
         if (doorScene == DoorLoadType.None)
-        {
             FinishSceneLoad();
-        }
-        // TODO: Door shit.
         else
-        {
             SceneManager.LoadScene(doorScene.ToString());
-        }
+
+        var useKey = FindObjectOfType<UseKey>();
+        useKey.ResetState();
+        var pickupItem = FindObjectOfType<PickupItem>();
+        pickupItem.ResetState();
     }
 
     private void FinishSceneLoad()
     {
-        SceneManager.LoadScene(_targetScene);
+        var sceneLoadData = DataSaver.GetSceneLoadData();
+        SceneManager.LoadScene(sceneLoadData.TargetScene);
 
-        transform.position = _loadPosition;
-        transform.eulerAngles = _loadRotation;
+        if(sceneLoadData.LoadPosition.HasValue)
+            transform.position = sceneLoadData.LoadPosition.Value;
+        if(sceneLoadData.LoadRotation.HasValue)
+            transform.eulerAngles = sceneLoadData.LoadRotation.Value;
+
+        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerInventory = FindObjectOfType<PlayerInventory>();
+        DataSaver.LoadFromGameState(playerStatus, playerInventory);
     }
 }

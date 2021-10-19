@@ -12,6 +12,11 @@
         
     }
 
+    public override string GetPrefabPath()
+    {
+        return ItemPrefabFolderPath + "GreenMedicine";
+    }
+
     public override bool IsStackable()
     {
         return false;

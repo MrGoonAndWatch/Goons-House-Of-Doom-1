@@ -1,5 +1,10 @@
 ﻿public class Garbage : Item
 {
+    public override string GetPrefabPath()
+    {
+        return ItemPrefabFolderPath + "Garbage";
+    }
+
     public override bool IsStackable()
     {
         return true;

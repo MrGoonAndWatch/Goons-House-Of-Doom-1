@@ -28,6 +28,12 @@ public class UseKey : MonoBehaviour
         }
     }
 
+    public void ResetState()
+    {
+        _collidedDoors.RemoveAll(d => true);
+        _collidedSimpleLocks.RemoveAll(l => true);
+    }
+
     public void Use(Key key)
     {
         if (_collidedSimpleLocks.Any())
