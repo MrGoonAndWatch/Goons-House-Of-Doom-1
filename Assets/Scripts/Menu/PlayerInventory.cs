@@ -287,10 +287,30 @@ public class PlayerInventory : MonoBehaviour
     void OpenActionMenu()
     {
         _currentActionIndex = 0;
+        UpdateActionMenuText();
         UpdateActionCursorPosition();
         MenuActionRoot.SetActive(true);
         UpdateActionCursorPosition();
         _actionMenuOpen = true;
+    }
+
+    private void UpdateActionMenuText()
+    {
+        foreach (var menuAction in MenuActions)
+        {
+            if (menuAction.ActionType == MenuAction.MenuActionType.Use)
+            {
+                if (Items[_currentItemIndex].Item is Weapon)
+                {
+                    if (_playerStatus.EquipedWeapon == null || _playerStatus.EquipedWeapon.GetInstanceID() != Items[_currentItemIndex].Item.GetInstanceID())
+                        menuAction.Textbox.text = "EQUIP";
+                    else
+                        menuAction.Textbox.text = "UNEQUIP";
+                }
+                else
+                    menuAction.Textbox.text = "USE";
+            }
+        }
     }
 
     public void AddItem(Item item)
