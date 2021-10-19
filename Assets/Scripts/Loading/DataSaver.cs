@@ -26,6 +26,11 @@ public class DataSaver : MonoBehaviour
         };
     }
 
+    public GameState GetGameState()
+    {
+        return _gameState;
+    }
+
     public void SaveGameStateFromScene(PlayerStatus playerStatus, PlayerInventory playerInventory, SceneLoadData sceneLoadData)
     {
         SavePlayerStatus(playerStatus, playerInventory);

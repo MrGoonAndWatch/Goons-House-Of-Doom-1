@@ -16,6 +16,7 @@ public class PlayerStatus : MonoBehaviour
     public bool TakingDamage;
     public bool Aiming;
     public bool Shooting;
+    public bool HasSaveUiOpen;
 
     public List<int> KilledEnemies;
 
@@ -58,7 +59,7 @@ public class PlayerStatus : MonoBehaviour
 
     public bool IsMovementPrevented()
     {
-        return MenuOpened || LockMovement || TakingDamage || Shooting || Reading;
+        return MenuOpened || LockMovement || TakingDamage || Shooting || Reading || HasSaveUiOpen;
     }
 
     public bool CanInteract()
