@@ -108,4 +108,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ba8fb6e1ab2424ca2a44b45439f234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuIcon: {fileID: 2800000, guid: 829ed51132dd0dc41a6e9b61b389d7cf, type: 3}
+  QtyOnPickup: 1
+  MenuIcon: {fileID: 2800000, guid: e1be0eb93d0abca47af4659451d1d1e2, type: 3}

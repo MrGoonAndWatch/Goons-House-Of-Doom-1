@@ -108,5 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4bb8ea96835454cb01cc207f0b152a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuIcon: {fileID: 2800000, guid: 083636fa694ea78409d83a63bfabc7ce, type: 3}
+  QtyOnPickup: 1
+  MenuIcon: {fileID: 2800000, guid: d812f9481d05f594a8936f3fd25de732, type: 3}
   Ammo: 15
