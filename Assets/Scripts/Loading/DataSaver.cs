@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DataSaver : MonoBehaviour
 {
-    public GameObject ObjectDumpster;
     private GameState _gameState;
 
     void Awake()
@@ -118,7 +116,7 @@ public class DataSaver : MonoBehaviour
             if (string.IsNullOrEmpty(_gameState.Inventory[i].ItemType))
                 continue;
 
-            playerInventory.Items[i].Item = CreateItem(_gameState.Inventory[i].ItemType);
+            playerInventory.Items[i].Item = ItemGenerator.CreateItem(_gameState.Inventory[i].ItemType);
             playerInventory.Items[i].ItemSprite.texture = playerInventory.Items[i].Item.MenuIcon;
             playerInventory.Items[i].ItemSprite.color = Color.white;
             if (playerInventory.Items[i].Item is Weapon)
@@ -129,16 +127,6 @@ public class DataSaver : MonoBehaviour
             else
                 playerInventory.Items[i].Qty = _gameState.Inventory[i].Qty;
         }
-    }
-
-    private Item CreateItem(string itemType)
-    {
-        var resource = Resources.Load(itemType);
-        var itemObj = Instantiate(resource, ObjectDumpster.transform);
-        var item = (itemObj as GameObject)?.GetComponent<Item>();
-        if (item == null)
-            throw new ApplicationException("Could not find item on resource for prefab " + itemType);
-        return item;
     }
 
     public class GameState

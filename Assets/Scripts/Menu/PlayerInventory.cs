@@ -281,6 +281,7 @@ public class PlayerInventory : MonoBehaviour
         Items[itemA].Combine(Items[itemB]);
         ItemDirty[itemA] = true;
         ItemDirty[itemB] = true;
+        _combiningItems = false;
         CloseActionMenu();
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour
@@ -20,24 +21,30 @@ public class ItemSlot : MonoBehaviour
 
     public void Combine(ItemSlot itemB)
     {
-        var comboResult = Item.Combine(itemB.Item);
-        if (comboResult.ItemA == null)
+        var maxStackSize = itemB.Item.GetMaxStackSize();
+        if (Item.GetType() == itemB.Item.GetType() && Item.IsStackable() && maxStackSize.HasValue)
         {
-            DiscardItem();
-        }
-        else
-        {
-            Item = comboResult.ItemA;
+            var availableQty = maxStackSize.Value - itemB.Qty;
+            var qtyTransferred = Math.Min(Qty, availableQty);
+            itemB.Qty += qtyTransferred;
+
+            Qty -= qtyTransferred;
+            if (Qty <= 0)
+                DiscardItem();
+
+            return;
         }
 
-        if (comboResult.ItemB == null)
-        {
-            itemB.DiscardItem();
-        }
+        var comboResult = Item.Combine(itemB.Item);
+        if (comboResult.ItemA == null)
+            DiscardItem();
         else
-        {
+            Item = comboResult.ItemA;
+
+        if (comboResult.ItemB == null)
+            itemB.DiscardItem();
+        else
             itemB.Item = comboResult.ItemB;
-        }
     }
 
     public string GetQtyDisplay()

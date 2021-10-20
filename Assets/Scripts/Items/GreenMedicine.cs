@@ -39,7 +39,7 @@
         // TODO: Setup Combos w/ other items.
         return new ComboResult
         {
-            ItemA = new Garbage(),
+            ItemA = ItemGenerator.CreateItem(new Garbage().GetPrefabPath()),
             ItemB = null,
         };
     }
