@@ -315,17 +315,48 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(Item item)
     {
+        var qty = item.QtyOnPickup;
         var i = 0;
-        foreach (var itemSlot in Items)
+
+        // Try to stack item.
+        if (item.IsStackable())
         {
-            if (itemSlot.Item == null)
+            foreach (var itemSlot in Items)
             {
-                itemSlot.Item = item;
-                ItemDirty[i] = true;
-                break;
+                var maxStackSize = itemSlot.Item?.GetMaxStackSize();
+                if (itemSlot.Item != null && 
+                    itemSlot.Item.GetType() == item.GetType() &&
+                    maxStackSize.HasValue)
+                {
+                    var remainingQtyInStack = maxStackSize.Value - itemSlot.Qty;
+                    var qtyToAddToStack = Math.Min(qty, remainingQtyInStack);
+                    qty -= qtyToAddToStack;
+                    itemSlot.Qty += qtyToAddToStack;
+                    ItemDirty[i] = true;
+                }
+                i++;
             }
-            i++;
         }
+
+        // Put remaining qty in the first open slot.
+        if (qty > 0)
+        {
+            i = 0;
+            foreach (var itemSlot in Items)
+            {
+                if (itemSlot.Item == null)
+                {
+                    itemSlot.Item = item;
+                    itemSlot.Qty = qty;
+                    ItemDirty[i] = true;
+                    qty = 0;
+                    break;
+                }
+                i++;
+            }
+        }
+
+        // TODO: Leave item w/ remaining qty if there's some remaining.
     }
 
     void UsedItem()

@@ -8,6 +8,7 @@ public class SimpleLock : MonoBehaviour
     public KeyType UnlocksWith;
 
     public Item ContainsItem;
+    public int ItemQty = 1;
 
     private bool _unlocked;
     private bool _looted;
