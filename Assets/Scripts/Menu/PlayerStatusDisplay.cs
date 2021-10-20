@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class PlayerStatusDisplay : MonoBehaviour
 {
     public PlayerStatus PlayerStatus;
-    public Image StatusIcon;
+    public RawImage StatusIcon;
     public Text StatusText;
 
     private HealthStatus _currentStatus;

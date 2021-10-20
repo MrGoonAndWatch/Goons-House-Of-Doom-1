@@ -26,6 +26,8 @@ public class PlayerInventory : MonoBehaviour
 
     private int _currentActionIndex;
     private int _comboSelectionIndex;
+
+    private bool firstActionMenuOpen = true;
     
     public RawImage EquipSlot;
     public bool EquipDirty;
@@ -289,9 +291,12 @@ public class PlayerInventory : MonoBehaviour
     {
         _currentActionIndex = 0;
         UpdateActionMenuText();
-        UpdateActionCursorPosition();
         MenuActionRoot.SetActive(true);
-        UpdateActionCursorPosition();
+        // HACK: For some reason the first time this menu opens it has the wrong position for the action panels, so just skip that step once.
+        if (firstActionMenuOpen)
+            firstActionMenuOpen = false;
+        else
+            UpdateActionCursorPosition();
         _actionMenuOpen = true;
     }
 
