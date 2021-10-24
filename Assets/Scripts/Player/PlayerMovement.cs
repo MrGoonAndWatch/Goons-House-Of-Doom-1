@@ -14,6 +14,9 @@ public class PlayerSpeed
 public class PlayerMovement : MonoBehaviour
 {
     public PlayerStatus PlayerStatus;
+    public Animator PlayerAnimator;
+
+    private bool _moving;
 
     public PlayerSpeed SpeedAtHealthy = new PlayerSpeed
     {
@@ -69,12 +72,18 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (PlayerStatus.IsMovementPrevented())
+        {
+            SetMoving(false);
             return;
+        }
 
         var currentSpeed = GetCurrentSpeed();
 
         if (PlayerStatus.QuickTurning)
+        {
             ProcessQuickTurn(currentSpeed);
+            SetMoving(false);
+        }
         else
             ProcessNormalMovement(currentSpeed);
     }
@@ -98,20 +107,26 @@ public class PlayerMovement : MonoBehaviour
         if (Math.Abs(horizontalInput) > RotationDeadzone)
             transform.Rotate(0, horizontalInput * currentSpeed.RotationSpeed * Time.deltaTime, 0);
 
-        if(!PlayerStatus.Aiming)
+        if (!PlayerStatus.Aiming)
             ProcessVerticalInput(verticalInput, currentSpeed);
+        else
+            SetMoving(false);
     }
 
     private void ProcessVerticalInput(float verticalInput, PlayerSpeed currentSpeed)
     {
+        var moving = false;
+
         if (verticalInput > MovementDeadzone)
         {
             var speed = Input.GetButton(GameConstants.Controls.Run) ? currentSpeed.RunSpeed : currentSpeed.WalkSpeed;
             transform.localPosition += transform.forward * speed * Time.deltaTime;
+            moving = true;
         }
         else if (verticalInput < -MovementDeadzone)
         {
             transform.localPosition -= transform.forward * currentSpeed.WalkBackwardsSpeed * Time.deltaTime;
+            moving = true;
         }
 
         if (Input.GetButtonDown(GameConstants.Controls.Run) && verticalInput < 0)
@@ -121,6 +136,8 @@ public class PlayerMovement : MonoBehaviour
                 _quickTurnTargetRotation.z % 360);
             PlayerStatus.QuickTurning = true;
         }
+
+        SetMoving(moving);
     }
 
     private PlayerSpeed GetCurrentSpeed()
@@ -137,5 +154,14 @@ public class PlayerMovement : MonoBehaviour
             default:
                 return SpeedAtHealthy;
         }
+    }
+
+    private void SetMoving(bool newValue, bool updateAnyway = false)
+    {
+        if (_moving == newValue && !updateAnyway)
+            return;
+
+        _moving = newValue;
+        PlayerAnimator.SetBool(AnimationVariables.Player.Walking, _moving);
     }
 }

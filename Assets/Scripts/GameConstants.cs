@@ -34,3 +34,26 @@ public enum DoorLoadType
     None = 0,
     WoodDoor1 = 1,
 }
+
+public static class AnimationNames
+{
+    public static class Enemy
+    {
+        public const string Attack = "Attack";
+    }
+}
+
+public static class AnimationVariables
+{
+    public static class Player
+    {
+        public const string Walking = "Walking";
+        public const string Running = "Running";
+    }
+
+    public static class Enemy
+    {
+        public const string Moving = "Moving";
+        public const string Attacking = "Attacking";
+    }
+}

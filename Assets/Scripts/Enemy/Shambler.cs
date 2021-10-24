@@ -7,16 +7,18 @@ public class Shambler : Enemy
     public float TargetUpdateFrequency = 1.0f;
     public float MaxWanderDistance = 10.0f;
     public float AttackAtDistance = 2.0f;
-    public float AttackDuration = 1.5f;
     public GameObject AttackHitbox;
     [Tooltip("How close to consider the enemy to be 'at' its targeted position (will stop moving).")]
     public float AtTargetThreshold = 5.0f;
+
+    public Animator Animator;
 
     private Vector3 _origin;
     private Vector3 _targetPosition;
 
     private float _timeSinceTargetUpdate;
     private float _timeSinceAttackStart;
+    private const float AttackAnimationGracePeriod = 0.5f;
 
     private bool _chasingPlayer;
     private bool _attacking;
@@ -40,22 +42,25 @@ public class Shambler : Enemy
         _targetPosition = transform.position;
 
         AttackHitbox.SetActive(false);
+
+        // TODO: Do we ever need to worry about setting this elsewhere?
+        Animator.SetBool(AnimationVariables.Enemy.Moving, true);
     }
 
     void Update()
     {
         _timeSinceTargetUpdate += Time.deltaTime;
-        if (_attacking)
-            _timeSinceAttackStart += Time.deltaTime;
 
         if (_timeSinceTargetUpdate > TargetUpdateFrequency)
             UpdateTarget();
+        if (_attacking)
+            _timeSinceAttackStart += Time.deltaTime;
 
         if (!_attacking && _chasingPlayer && DistanceToPlayer() <= AttackAtDistance)
             Attack();
 
-        if (_attacking && _timeSinceAttackStart > AttackDuration)
-            StopAttack();
+        if (_attacking)
+            CheckForStopAttack();
 
         if (!_attacking)
             Move();
@@ -85,13 +90,25 @@ public class Shambler : Enemy
 
     void Attack()
     {
+        if (!_attacking)
+            Animator.SetBool(AnimationVariables.Enemy.Attacking, true);
         AttackHitbox.SetActive(true);
         _attacking = true;
         _timeSinceAttackStart = 0;
     }
 
+    void CheckForStopAttack()
+    {
+        if (_timeSinceAttackStart > AttackAnimationGracePeriod && !Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationNames.Enemy.Attack))
+        {
+            StopAttack();
+        }
+    }
+
     void StopAttack()
     {
+        if (_attacking)
+            Animator.SetBool(AnimationVariables.Enemy.Attacking, false);
         AttackHitbox.SetActive(false);
         _attacking = false;
     }
