@@ -81,13 +81,19 @@ public class SaveGame : MonoBehaviour
         saver.SaveGameStateFromScene(playerStatus, playerInventory, sceneInfo);
         var data = saver.GetGameState();
 
-        if (string.IsNullOrEmpty(filename))
-            filename = DateTime.Now.ToString("yy-MM-dd_HH-mm-ss") + ".sav";
+        var roomStr = SceneManager.GetActiveScene().name;
+        var dateStr = DateTime.Now.ToString("yy-MM-dd_HH-mm-ss");
+        var newFilename = roomStr + " - " + dateStr + ".sav";
 
-        var fullFilePath = _fullGameSavePath + filename;
+        var fullFilePath = _fullGameSavePath + newFilename;
 
         var dataJson = JsonConvert.SerializeObject(data);
         File.WriteAllText(fullFilePath, dataJson);
+        if (!string.IsNullOrEmpty(filename))
+        {
+            var oldFilePath = _fullGameSavePath + filename;
+            File.Delete(oldFilePath);
+        }
 
         Close();
     }
@@ -122,7 +128,14 @@ public class SaveGame : MonoBehaviour
     {
         var files = Directory.GetFiles(_fullGameSavePath).Where(f => f.EndsWith(".sav"));
 
-        _saveFileNames = files.ToList();
+        var filenamesWithLastModified = new List<Tuple<string, DateTime>>();
+        foreach (var file in files)
+        {
+            var lastModified = File.GetLastWriteTimeUtc(file);
+            filenamesWithLastModified.Add(new Tuple<string, DateTime>(file, lastModified));
+        }
+
+        _saveFileNames = filenamesWithLastModified.OrderByDescending(f => f.Item2).Select(f => f.Item1).ToList();
         var saveFileDisplayStr = new StringBuilder("Create New Save File\r\n\r\n");
         foreach (var saveFileName in _saveFileNames)
         {
