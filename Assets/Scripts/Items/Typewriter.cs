@@ -1,5 +1,10 @@
 ﻿public class Typewriter : Item
 {
+    public override string GetDesription()
+    {
+        return "A typewriter. If I can find a place to put this down I could record my progress.";
+    }
+
     public override string GetPrefabPath()
     {
         return ItemPrefabFolderPath + "Typewriter";

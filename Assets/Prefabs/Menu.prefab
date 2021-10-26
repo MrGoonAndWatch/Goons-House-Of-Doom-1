@@ -2097,6 +2097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ToggleInventory: {fileID: 5023443881324028529}
+  ExamineText: {fileID: 2982397592702717546}
   Items:
   - {fileID: 5733865227799117504}
   - {fileID: 6547128900424614205}

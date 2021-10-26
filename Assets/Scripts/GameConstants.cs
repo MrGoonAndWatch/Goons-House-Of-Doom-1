@@ -27,6 +27,13 @@ public enum KeyType
 {
     None = 0,
     WardrobeKey = 1,
+    BigKey = 2,
+}
+
+public enum GlobalEvent
+{
+    None = 0,
+    LabUnlocked = 1,
 }
 
 public enum DoorLoadType

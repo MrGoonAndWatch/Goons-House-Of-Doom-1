@@ -15,6 +15,11 @@
         return 2.0f;
     }
 
+    public override string GetDesription()
+    {
+        return "It's a basic handgun.";
+    }
+
     public override string GetPrefabPath()
     {
         return ItemPrefabFolderPath + "Handgun";

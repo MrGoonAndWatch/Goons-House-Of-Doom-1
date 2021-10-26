@@ -40,6 +40,9 @@ public class DataSaver : MonoBehaviour
     {
         _gameState.Health = playerStatus.Health;
         _gameState.DeadEnemies = _gameState.DeadEnemies.Union(playerStatus.KilledEnemies).Distinct().ToArray();
+        _gameState.DoorsUnlocked = _gameState.DoorsUnlocked.Union(playerStatus.DoorsUnlocked).Distinct().ToArray();
+        _gameState.GrabbedItems = _gameState.GrabbedItems.Union(playerStatus.GrabbedItems).Distinct().ToArray();
+        _gameState.TriggeredEvents = _gameState.TriggeredEvents.Union(playerStatus.TriggeredEvents.Select(e => (int)e)).Distinct().ToArray();
         if(playerStatus.EquipedWeapon != null)
             for (var i = 0; i < playerInventory.Items.Length; i++)
                 if (playerInventory.Items[i].Item != null && playerStatus.EquipedWeapon.GetInstanceID() == playerInventory.Items[i].Item.GetInstanceID())
@@ -136,6 +139,9 @@ public class DataSaver : MonoBehaviour
         public int? EquipedWeaponIndex;
         public double Health;
         public int[] DeadEnemies;
+        public int[] GrabbedItems;
+        public int[] TriggeredEvents;
+        public int[] DoorsUnlocked;
     }
 
     public class ItemState

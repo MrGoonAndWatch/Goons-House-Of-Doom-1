@@ -1,5 +1,10 @@
 ﻿public class Garbage : Item
 {
+    public override string GetDesription()
+    {
+        return "It's a useless pile of junk.";
+    }
+
     public override string GetPrefabPath()
     {
         return ItemPrefabFolderPath + "Garbage";

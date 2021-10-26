@@ -8,6 +8,8 @@ public class PlayerInventory : MonoBehaviour
 
     public ToggleInventory ToggleInventory;
 
+    public Text ExamineText;
+
     public ItemSlot[] Items;
     public Text[] ItemQtys;
     public bool[] ItemDirty;
@@ -261,8 +263,7 @@ public class PlayerInventory : MonoBehaviour
                 _comboSelectionIndex = _currentItemIndex;
                 break;
             case MenuAction.MenuActionType.Examine:
-                // TODO: IMPLEMENT ME!!!
-                throw new NotImplementedException();
+                ExamineCurrentItem();
                 break;
             case MenuAction.MenuActionType.Discard:
                 Items[_currentItemIndex].DiscardItem();
@@ -276,6 +277,15 @@ public class PlayerInventory : MonoBehaviour
     {
         MenuActionRoot.SetActive(false);
         _actionMenuOpen = false;
+    }
+
+    void ExamineCurrentItem()
+    {
+        var currentItem = Items[_currentItemIndex].Item;
+        if (currentItem == null)
+            return;
+
+        ExamineText.text = currentItem.GetDesription();
     }
 
     void CombineItems(int itemA, int itemB)

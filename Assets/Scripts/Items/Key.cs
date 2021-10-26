@@ -9,6 +9,11 @@
         _useKey = FindObjectOfType<UseKey>();
     }
 
+    public override string GetDesription()
+    {
+        return "A key";
+    }
+
     public override string GetPrefabPath()
     {
         return ItemPrefabFolderPath + "BlueKey";

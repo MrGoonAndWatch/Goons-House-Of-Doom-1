@@ -1,9 +1,10 @@
-﻿using System;
+﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
+    public int DoorId;
+
     public string GoesToRoom;
     public DoorLoadType DoorLoadType;
     public Vector3 StartAtPosition;
@@ -13,6 +14,7 @@ public class Door : MonoBehaviour
     public string[] UnlockText;
 
     public KeyType LocksWith;
+    public GlobalEvent UnlocksOnEvent;
 
     private bool _unlocked;
     private TextReader _textReader;
@@ -20,12 +22,8 @@ public class Door : MonoBehaviour
     void Start()
     {
         _textReader = FindObjectOfType<TextReader>();
-        if (LocksWith == KeyType.None)
+        if (LocksWith == KeyType.None && UnlocksOnEvent == GlobalEvent.None)
             _unlocked = true;
-    }
-    
-    void Update()
-    {
     }
 
     public void Inspect()
@@ -41,7 +39,7 @@ public class Door : MonoBehaviour
             };
             sceneChanger.ChangeScene(sceneChangeInfo, DoorLoadType);
         }
-        else
+        else if(LockedText.Any())
             _textReader.ReadText(LockedText);
     }
 
@@ -51,6 +49,19 @@ public class Door : MonoBehaviour
             return;
 
         _unlocked = true;
-        _textReader.ReadText(UnlockText);
+        var playerStatus = FindObjectOfType<PlayerStatus>();
+        playerStatus.UnlockDoor(DoorId);
+        if (UnlockText.Any())
+            _textReader.ReadText(UnlockText);
+    }
+
+    public void OnEvent(GlobalEvent globalEvent)
+    {
+        if (_unlocked || globalEvent != UnlocksOnEvent)
+            return;
+        
+        _unlocked = true;
+        var playerStatus = FindObjectOfType<PlayerStatus>();
+        playerStatus.UnlockDoor(DoorId);
     }
 }

@@ -12,6 +12,11 @@
         
     }
 
+    public override string GetDesription()
+    {
+        return "A special mixture of chemicals that treat injuries almost instantly.";
+    }
+
     public override string GetPrefabPath()
     {
         return ItemPrefabFolderPath + "GreenMedicine";

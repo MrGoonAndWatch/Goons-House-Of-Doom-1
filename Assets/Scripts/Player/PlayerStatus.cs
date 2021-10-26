@@ -19,17 +19,43 @@ public class PlayerStatus : MonoBehaviour
     public bool HasSaveUiOpen;
 
     public List<int> KilledEnemies;
+    public List<GlobalEvent> TriggeredEvents;
+    public List<int> GrabbedItems;
+    public List<int> DoorsUnlocked;
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
         KilledEnemies = new List<int>();
+        TriggeredEvents = new List<GlobalEvent>();
+        GrabbedItems = new List<int>();
+        DoorsUnlocked = new List<int>();
     }
 
     void Start()
     {
         // TODO: Load this so your health doesn't reset between rooms!
         Health = MaxHealth;
+    }
+
+    public void KillEnemy(int enemyId)
+    {
+        KilledEnemies.Add(enemyId);
+    }
+
+    public void UnlockDoor(int doorId)
+    {
+        DoorsUnlocked.Add(doorId);
+    }
+
+    public void GrabItem(int itemId)
+    {
+        GrabbedItems.Add(itemId);
+    }
+
+    public void TriggeredEvent(GlobalEvent eventTriggered)
+    {
+        TriggeredEvents.Add(eventTriggered);
     }
 
     public void AddHealth(double value)

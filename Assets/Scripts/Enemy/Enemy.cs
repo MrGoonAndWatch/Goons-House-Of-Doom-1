@@ -2,6 +2,8 @@
 
 public class Enemy : MonoBehaviour
 {
+    public int EnemyId;
+
     public float SightRange = 10.0f;
     public LayerMask LayerMask;
 
