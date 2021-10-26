@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class DamageHandler : MonoBehaviour
 {
+    public int EnemyId;
+
     public float MaxHp;
 
     private float _hp;
+
+    private bool _dead;
 
     void Start()
     {
@@ -14,11 +18,23 @@ public class DamageHandler : MonoBehaviour
 
     void Update()
     {
-        if (_hp == 0)
+        if (!_dead && _hp == 0)
         {
-            // TODO: Something better.
+            _dead = true;
+            if (EnemyId != 0)
+            {
+                var playerStatus = FindObjectOfType<PlayerStatus>();
+                playerStatus.KillEnemy(EnemyId);
+            }
+
+            // TODO: Activate some animation instead.
             gameObject.SetActive(false);
         }
+    }
+
+    public void ForceDead()
+    {
+        _hp = 0;
     }
 
     public void HandleDamage(float damage)

@@ -56,8 +56,17 @@ public class PickupItem : MonoBehaviour
             return;
 
         var item = validItems.Last();
-        Inventory.AddItem(item);
-        item.gameObject.SetActive(false);
+        var remainingQty = Inventory.AddItem(item);
+        if (item.ItemId != 0 && remainingQty != item.QtyOnPickup)
+        {
+            var playerStatus = FindObjectOfType<PlayerStatus>();
+            playerStatus.GrabItem(item.ItemId);
+        }
+
+        if (remainingQty == 0)
+            item.gameObject.SetActive(false);
+        else
+            item.QtyOnPickup = remainingQty;
 
         _touchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
     }

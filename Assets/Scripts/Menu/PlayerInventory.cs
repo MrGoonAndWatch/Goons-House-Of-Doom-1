@@ -329,7 +329,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void AddItem(Item item)
+    public int AddItem(Item item)
     {
         var qty = item.QtyOnPickup;
         var i = 0;
@@ -371,8 +371,8 @@ public class PlayerInventory : MonoBehaviour
                 i++;
             }
         }
-
-        // TODO: Leave item w/ remaining qty if there's some remaining.
+        
+        return qty;
     }
 
     void UsedItem()

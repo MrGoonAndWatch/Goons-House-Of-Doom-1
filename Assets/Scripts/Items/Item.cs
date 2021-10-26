@@ -19,4 +19,9 @@ public abstract class Item: MonoBehaviour
 
     public abstract bool UseItem();
     public abstract ComboResult Combine(Item otherItem);
+
+    public void ForceDestroy()
+    {
+        gameObject.SetActive(false);
+    }
 }

@@ -12,6 +12,9 @@ public class DataSaver : MonoBehaviour
         _gameState = new GameState
         {
             DeadEnemies = new int[0],
+            DoorsUnlocked = new int[0],
+            GrabbedItems = new int[0],
+            TriggeredEvents = new int[0],
             Inventory = null,
             Health = PlayerStatus.MaxHealth,
             SceneLoadData = new SceneLoadData

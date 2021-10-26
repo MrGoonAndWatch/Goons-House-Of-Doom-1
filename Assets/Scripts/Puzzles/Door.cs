@@ -64,4 +64,9 @@ public class Door : MonoBehaviour
         var playerStatus = FindObjectOfType<PlayerStatus>();
         playerStatus.UnlockDoor(DoorId);
     }
+
+    public void ForceUnlock()
+    {
+        _unlocked = true;
+    }
 }
