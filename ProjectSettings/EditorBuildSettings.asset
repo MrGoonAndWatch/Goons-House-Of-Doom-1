@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Homage_Intro.unity
+    guid: e2620a2ef6bf7e817bff2a986ee7ea87
+  - enabled: 1
     path: Assets/Scenes/GameStartup.unity
     guid: ecea842585abf56438935ff2882d6d34
   - enabled: 1

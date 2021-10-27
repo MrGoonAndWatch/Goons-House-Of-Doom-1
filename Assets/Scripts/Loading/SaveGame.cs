@@ -15,7 +15,7 @@ public class SaveGame : MonoBehaviour
     public GameObject LoadingMessage;
     public Text SaveFileList;
 
-    private const string SaveGamePath = "/Saves/";
+    public const string SaveGamePath = "/Saves/";
     private string _fullGameSavePath;
 
     private bool _menuOpened;
@@ -126,7 +126,22 @@ public class SaveGame : MonoBehaviour
 
     private void RefreshSaveFileList()
     {
-        var files = Directory.GetFiles(_fullGameSavePath).Where(f => f.EndsWith(".sav"));
+        _saveFileNames = GetSaveFilesByMostRecentFirst(_fullGameSavePath);
+        var saveFileDisplayStr = new StringBuilder("Create New Save File\r\n\r\n");
+        foreach (var saveFileName in _saveFileNames)
+        {
+            var cleanFileName = CleanFileName(saveFileName);
+            saveFileDisplayStr.AppendLine(cleanFileName);
+        }
+        
+        var displayStr = saveFileDisplayStr.ToString();
+        SaveFileList.text = displayStr;
+    }
+
+    // HACK: God forgive me this is hacky.
+    public static List<string> GetSaveFilesByMostRecentFirst(string folderPath)
+    {
+        var files = Directory.GetFiles(folderPath).Where(f => f.EndsWith(".sav"));
 
         var filenamesWithLastModified = new List<Tuple<string, DateTime>>();
         foreach (var file in files)
@@ -135,17 +150,15 @@ public class SaveGame : MonoBehaviour
             filenamesWithLastModified.Add(new Tuple<string, DateTime>(file, lastModified));
         }
 
-        _saveFileNames = filenamesWithLastModified.OrderByDescending(f => f.Item2).Select(f => f.Item1).ToList();
-        var saveFileDisplayStr = new StringBuilder("Create New Save File\r\n\r\n");
-        foreach (var saveFileName in _saveFileNames)
-        {
-            var saveFileLastSlashIndex = saveFileName.LastIndexOfAny(new []{'\\', '/'});
-            var fileExtensionStartIndex = saveFileName.LastIndexOf('.');
-            var cleanFileName = saveFileName.Substring(saveFileLastSlashIndex + 1, fileExtensionStartIndex - saveFileLastSlashIndex - 1);
-            saveFileDisplayStr.AppendLine(cleanFileName);
-        }
-        
-        var displayStr = saveFileDisplayStr.ToString();
-        SaveFileList.text = displayStr;
+        var saveFileNames = filenamesWithLastModified.OrderByDescending(f => f.Item2).Select(f => f.Item1).ToList();
+        return saveFileNames;
+    }
+
+    public static string CleanFileName(string saveFileName)
+    {
+        var saveFileLastSlashIndex = saveFileName.LastIndexOfAny(new[] { '\\', '/' });
+        var fileExtensionStartIndex = saveFileName.LastIndexOf('.');
+        var cleanFileName = saveFileName.Substring(saveFileLastSlashIndex + 1, fileExtensionStartIndex - saveFileLastSlashIndex - 1);
+        return cleanFileName;
     }
 }

@@ -71,6 +71,15 @@ public class SoundManager : MonoBehaviour
         PlaySound(Instance.Cutscene.Source, Instance.Cutscene.SelfDestruct);
     }
 
+    public static float PlayGameStartSfx()
+    {
+        if (Instance == null)
+            return 0;
+
+        PlaySound(Instance.Cutscene.Source, Instance.Cutscene.GameStart);
+        return Instance.Cutscene.GameStart.length;
+    }
+
     public static void PlaySong()
     {
         if (Instance == null)
@@ -125,6 +134,7 @@ public class SoundManager : MonoBehaviour
 
         public AudioClip SelfDestruct;
         public AudioClip Yell1;
+        public AudioClip GameStart;
     }
 
     [Serializable]

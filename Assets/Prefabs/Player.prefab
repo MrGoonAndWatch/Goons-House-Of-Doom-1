@@ -592,6 +592,7 @@ MonoBehaviour:
   RotationDeadzone: 0.2
   MovementDeadzone: 0.1
   QuickTurnEndingDelta: 10
+  TimeBetweenFootstepSfxInSeconds: 1.5
 --- !u!114 &3144376596437122939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,7 +663,7 @@ MonoBehaviour:
   PlayerTransform: {fileID: 3144376596437122937}
   HitscanLayers:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 535
 --- !u!114 &6055927778020077336
 MonoBehaviour:
   m_ObjectHideFlags: 0
