@@ -21,6 +21,11 @@ public class TextReader : MonoBehaviour
     public float AdvanceTextCooldown;
     private float _advanceTextCooldownRemaining;
 
+    private bool _queuedText = false;
+    private string[] _queuedLines = null;
+    private string[] _queuedChoices = null;
+    private Action _queuedOnChoiceConfirmed = null;
+
     void Start()
     {
         DescriptiveText.SetActive(false);
@@ -45,6 +50,17 @@ public class TextReader : MonoBehaviour
         }
         else if (Input.GetButtonDown(GameConstants.Controls.Action))
             AdvanceText();
+    }
+
+    public void QueueReadText(string[] lines, string[] choices = null, Action onChoiceConfirmed = null)
+    {
+        if (_queuedText)
+            return;
+
+        _queuedText = true;
+        _queuedLines = lines;
+        _queuedChoices = choices;
+        _queuedOnChoiceConfirmed = onChoiceConfirmed;
     }
 
     public void ReadText(string[] lines, string[] choices = null, Action onChoiceConfirmed = null)
@@ -108,7 +124,17 @@ public class TextReader : MonoBehaviour
         _currentChoices = null;
         _currentChoiceSelection = 0;
         _makingChoice = false;
+        _onChoiceConfirmed = null;
         PlayerStatus.Reading = false;
+
+        if (_queuedText)
+        {
+            ReadText(_queuedLines, _queuedChoices, _queuedOnChoiceConfirmed);
+            _queuedLines = null;
+            _queuedChoices = null;
+            _queuedOnChoiceConfirmed = null;
+            _queuedText = false;
+        }
     }
 
     private void ProcessChoiceMovement()

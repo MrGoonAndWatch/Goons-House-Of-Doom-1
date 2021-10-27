@@ -2,6 +2,7 @@
 {
     public int Ammo;
 
+    public abstract void PlaySfx();
     public abstract bool IsHitscan();
     public abstract float GetDamagePerHit();
     /// <summary>

@@ -16,10 +16,11 @@ public class ProcessGameState : MonoBehaviour
         var enemies = FindObjectsOfType<DamageHandler>();
         var doors = FindObjectsOfType<Door>();
         var items = FindObjectsOfType<Item>();
+        var inspectables = FindObjectsOfType<Inspectable>();
 
         DestroyPreviouslyKilledEnemies(gameState, enemies);
         UnlockPreviouslyUnlockedDoors(gameState, doors);
-        ProcessPreviouslyTriggeredEvent(gameState, doors);
+        ProcessPreviouslyTriggeredEvent(gameState, doors, inspectables);
         DeletePreviouslyPickedUpItems(gameState, items);
     }
 
@@ -50,7 +51,7 @@ public class ProcessGameState : MonoBehaviour
         }
     }
 
-    private static void ProcessPreviouslyTriggeredEvent(DataSaver.GameState gameState, Door[] doors)
+    private static void ProcessPreviouslyTriggeredEvent(DataSaver.GameState gameState, Door[] doors, Inspectable[] inspectables)
     {
         foreach (var gameStateTriggeredEvent in gameState.TriggeredEvents)
         {
@@ -58,6 +59,14 @@ public class ProcessGameState : MonoBehaviour
             foreach (var door in doors)
             {
                 door.OnEvent((GlobalEvent)gameStateTriggeredEvent);
+            }
+
+            foreach (var inspectable in inspectables)
+            {
+                if ((int) inspectable.EventToTrigger == gameStateTriggeredEvent)
+                {
+                    inspectable.SetTriggered();
+                }
             }
         }
     }

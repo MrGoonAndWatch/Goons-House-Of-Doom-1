@@ -1,5 +1,10 @@
 ﻿public class Handgun : Weapon
 {
+    public override void PlaySfx()
+    {
+        SoundManager.PlayHandgunSfx();
+    }
+
     public override bool IsHitscan()
     {
         return true;

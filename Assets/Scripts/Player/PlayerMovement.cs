@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
         WalkSpeed = 2.0f,
         WalkBackwardsSpeed = 1.0f,
         RunSpeed = 4.0f,
-        RotationSpeed = 90.0f,
+        RotationSpeed = 180.0f,
         QuickTurnSpeed = 7f,
     };
 
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         WalkSpeed = 1.0f,
         WalkBackwardsSpeed = 0.5f,
         RunSpeed = 2.0f,
-        RotationSpeed = 70.0f,
+        RotationSpeed = 120.0f,
         QuickTurnSpeed = 6f,
     };
 
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         WalkSpeed = 4.0f,
         WalkBackwardsSpeed = 2.0f,
         RunSpeed = 8.0f,
-        RotationSpeed = 180.0f,
+        RotationSpeed = 240.0f,
         QuickTurnSpeed = 9f,
     };
 
@@ -61,6 +61,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 _quickTurnTargetRotation = Vector3.zero;
 
+    public float TimeBetweenFootstepSfxInSeconds = 1.5f;
+    private float _timeTilNextFootstepSfx;
+
     void Start()
     {
         if (PlayerStatus == null)
@@ -75,6 +78,14 @@ public class PlayerMovement : MonoBehaviour
         {
             SetMoving(false);
             return;
+        }
+
+        if (_timeTilNextFootstepSfx > 0)
+            _timeTilNextFootstepSfx -= Time.deltaTime;
+        if (_moving && _timeTilNextFootstepSfx <= 0)
+        {
+            SoundManager.PlayFootstepSfx();
+            _timeTilNextFootstepSfx = TimeBetweenFootstepSfxInSeconds / GetCurrentSpeed().WalkSpeed;
         }
 
         var currentSpeed = GetCurrentSpeed();
@@ -163,5 +174,7 @@ public class PlayerMovement : MonoBehaviour
 
         _moving = newValue;
         PlayerAnimator.SetBool(AnimationVariables.Player.Walking, _moving);
+        if (_moving)
+            _timeTilNextFootstepSfx = TimeBetweenFootstepSfxInSeconds / GetCurrentSpeed().WalkSpeed;
     }
 }

@@ -13,7 +13,7 @@ public class Inspectable : MonoBehaviour
     {
         TriggerCount++;
 
-        if (TriggerCount > 0)
+        if (TriggerCount > 1)
             return;
 
         if (EventToTrigger != GlobalEvent.None)
@@ -21,5 +21,10 @@ public class Inspectable : MonoBehaviour
             var playerStatus = FindObjectOfType<PlayerStatus>();
             playerStatus.TriggeredEvent(EventToTrigger);
         }
+    }
+
+    public virtual void SetTriggered()
+    {
+        TriggerCount = 1;
     }
 }

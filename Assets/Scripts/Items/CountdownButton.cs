@@ -3,9 +3,8 @@
     public TextReader TextReader;
     public CutsceneManager CutsceneManager;
 
+    private const string TimerReducedText = "Self destruct sequence expedited.";
     private const string ButtonStuckText = "The button is stuck, I can't press it any more.";
-
-    private const int CountdownBaseTime = 10;
 
     void Awake()
     {
@@ -21,15 +20,23 @@
 
         if (TriggerCount == 0)
             return;
-
-        var countdownTime = CountdownBaseTime / TriggerCount;
-        if (countdownTime == 0)
+        
+        if (TriggerCount == 1)
         {
-            TextReader.ReadText(new []{ButtonStuckText});
+            CutsceneManager.PlaySelfDestructCutscene();
         }
         else
         {
-            CutsceneManager.PlaySelfDestructCutscene();
+            var countdownDisplay = FindObjectOfType<CountdownDisplay>();
+            var result = countdownDisplay.StartCountdown();
+            if (result)
+            {
+                TextReader.QueueReadText(new [] { TimerReducedText });
+            }
+            else
+            {
+                TextReader.QueueReadText(new[] { ButtonStuckText });
+            }
         }
     }
 }

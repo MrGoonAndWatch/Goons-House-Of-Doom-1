@@ -39,6 +39,8 @@ public class WeaponInput : MonoBehaviour
 
         _shootCooldown = _playerStatus.EquipedWeapon.GetRateOfFire();
 
+        _playerStatus.EquipedWeapon.PlaySfx();
+
         if (_playerStatus.EquipedWeapon.IsHitscan())
         {
             RaycastHit hit;

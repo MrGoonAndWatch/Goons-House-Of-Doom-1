@@ -34,6 +34,7 @@ public enum GlobalEvent
 {
     None = 0,
     LabUnlocked = 1,
+    SelfDestructEngaged = 2,
 }
 
 public enum DoorLoadType
