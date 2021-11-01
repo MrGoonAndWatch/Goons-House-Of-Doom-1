@@ -24,10 +24,7 @@
     public override bool UseItem()
     {
         var playerStatus = FindObjectOfType<PlayerStatus>();
-        if (playerStatus.EquipedWeapon == this)
-            playerStatus.EquipedWeapon = null;
-        else
-            playerStatus.EquipedWeapon = this;
+        playerStatus.EquipWeapon(this);
         var menu = FindObjectOfType<PlayerInventory>();
         menu.EquipDirty = true;
         return false;

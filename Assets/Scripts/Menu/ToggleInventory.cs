@@ -17,8 +17,8 @@ public class ToggleInventory : MonoBehaviour
 
     void Update()
     {
-        if (!_playerStatus.Reading &&
-            Input.GetButtonDown("Menu"))
+        if (_playerStatus.CanOpenMenu() &&
+            Input.GetButtonDown(GameConstants.Controls.Menu))
             ToggleMenu();
     }
 

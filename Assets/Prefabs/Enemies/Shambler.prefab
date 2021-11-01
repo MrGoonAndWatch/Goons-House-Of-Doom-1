@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4839e0f74d1ca9944b28023352989815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 55
 --- !u!65 &7326427472320505131
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad842da65363f2144aa168f5b373df98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyId: 0
   MaxHp: 30
 --- !u!65 &4612770322249941527
 BoxCollider:
@@ -158,9 +159,12 @@ MonoBehaviour:
   TargetUpdateFrequency: 1
   MaxWanderDistance: 5
   AttackAtDistance: 3
-  AttackDuration: 1.5
   AttackHitbox: {fileID: 2606522707431963761}
   AtTargetThreshold: 1
+  AudioSource: {fileID: 0}
+  BiteSfx: {fileID: 8300000, guid: 713e9403161889d47a1f44c06757f65b, type: 3}
+  Mixer: {fileID: 6054889810260202092, guid: 6b72ff6a5c1896f49b0dad56872d79f2, type: 2}
+  Wander: 1
   Animator: {fileID: 8385037427342951872}
 --- !u!95 &8385037427342951872
 Animator:
@@ -244,10 +248,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2287078899584972713, guid: 22ad3803716a85c4db6e7f813c71bd13, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ae614569624439743afc53eb3d355a98, type: 2}
+    - target: {fileID: 2345211957819186503, guid: 22ad3803716a85c4db6e7f813c71bd13, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c86260d217e2a7343bf1af5018bfbbaa, type: 2}
     - target: {fileID: 5104377749899350686, guid: 22ad3803716a85c4db6e7f813c71bd13, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6537619893235329318, guid: 22ad3803716a85c4db6e7f813c71bd13, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ae614569624439743afc53eb3d355a98, type: 2}
     - target: {fileID: 9111962883125049612, guid: 22ad3803716a85c4db6e7f813c71bd13, type: 3}
       propertyPath: m_Layer
       value: 9

@@ -18,6 +18,21 @@ EditorBuildSettings:
     path: Assets/Scenes/West Hallway.unity
     guid: c97303bb5fb5a524eb03bcc564304e05
   - enabled: 1
+    path: Assets/Scenes/West Storage.unity
+    guid: 8ead1b6b90cd84149bb13ccd92e0f579
+  - enabled: 1
+    path: Assets/Scenes/East Balcony.unity
+    guid: 4575f347148975247b0b69cb9190b168
+  - enabled: 1
+    path: Assets/Scenes/Dining Room.unity
+    guid: 355e7c0b82572b6498e6279dd41a03e0
+  - enabled: 1
+    path: Assets/Scenes/Lab.unity
+    guid: 199f0f036d1d566449a17f95a2fcc2bc
+  - enabled: 1
+    path: Assets/Scenes/House Escaped.unity
+    guid: 13ac9aea0447f284ba46abb8b8555730
+  - enabled: 1
     path: Assets/Scenes/Test Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1

@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerStatus : MonoBehaviour
 {
     public Weapon EquipedWeapon;
+    public Animator PlayerAnimator;
+    public GameObject GameOverUi;
 
     public double Health;
     public const double MaxHealth = 200.22;
@@ -17,13 +19,23 @@ public class PlayerStatus : MonoBehaviour
     public bool Aiming;
     public bool Shooting;
     public bool HasSaveUiOpen;
+    public bool Paused;
 
     public List<int> KilledEnemies;
     public List<GlobalEvent> TriggeredEvents;
     public List<int> GrabbedItems;
     public List<int> DoorsUnlocked;
 
-    void Awake()
+    [Tooltip("Time (in seconds) between when player hp reaches 0 and when the game over screen comes up.")]
+    public float GameOverUiDelay = 6.0f;
+    private float _timeUntilShowGameOverUi;
+    private bool _showingGameOverUi;
+
+    [Tooltip("Time (in seconds) from when a player gets hit to when they can get hit again.")]
+    public float HitCooldown = 1.0f;
+    private float _remainingHitCooldown;
+
+    private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         KilledEnemies = new List<int>();
@@ -32,10 +44,59 @@ public class PlayerStatus : MonoBehaviour
         DoorsUnlocked = new List<int>();
     }
 
-    void Start()
+    private void Start()
     {
-        // TODO: Load this so your health doesn't reset between rooms!
         Health = MaxHealth;
+    }
+
+    private void Update()
+    {
+        ProcessGameOverUi();
+        ProcessExitInput();
+        ProcessHitCooldown();
+    }
+
+    private void ProcessGameOverUi()
+    {
+        if (Health > 0 || _timeUntilShowGameOverUi <= 0)
+            return;
+
+        _timeUntilShowGameOverUi -= Time.deltaTime;
+
+        if (_timeUntilShowGameOverUi <= 0)
+        {
+            EnableGameOverUi();
+        }
+    }
+
+    public void ForceGameOverUi()
+    {
+        EnableGameOverUi();
+    }
+
+    private void EnableGameOverUi()
+    {
+        GameOverUi.SetActive(true);
+        _showingGameOverUi = true;
+    }
+
+    private void ProcessExitInput()
+    {
+        if (!_showingGameOverUi)
+            return;
+
+        if(Input.GetButtonDown(GameConstants.Controls.Pause))
+            Application.Quit();
+    }
+
+    private void ProcessHitCooldown()
+    {
+        if (_remainingHitCooldown <= 0)
+            return;
+
+        _remainingHitCooldown -= Time.deltaTime;
+        if (_remainingHitCooldown <= 0)
+            TakingDamage = false;
     }
 
     public void KillEnemy(int enemyId)
@@ -58,14 +119,66 @@ public class PlayerStatus : MonoBehaviour
         TriggeredEvents.Add(eventTriggered);
     }
 
+    public void HitByAttack(double damage, string hitAnimationVariable)
+    {
+        if (GetHealthStatus() == HealthStatus.Dead)
+            return;
+
+        SoundManager.PlayHitSfx();
+        TakingDamage = true;
+        AddHealth(-damage);
+        PlayerAnimator.SetBool(hitAnimationVariable, true);
+        // TODO: Instead of a hard coded cooldown should have event handling from the animator to check when hittable again.
+        _remainingHitCooldown = HitCooldown;
+    }
+
     public void AddHealth(double value)
     {
-        Health = Math.Min(MaxHealth, Health + value);
+        Health = Math.Max(0, Math.Min(MaxHealth, Health + value));
+        HandleDeath();
     }
 
     public void SetHealth(double value)
     {
         Health = value;
+        HandleDeath();
+    }
+
+    private void HandleDeath()
+    {
+        if (Health > 0)
+            return;
+
+        SoundManager.PauseSong();
+
+        _timeUntilShowGameOverUi = GameOverUiDelay;
+
+        if (MenuOpened)
+        {
+            var inv = FindObjectOfType<ToggleInventory>();
+            inv.ToggleMenu();
+        }
+
+        if (Reading)
+        {
+            var textReader = FindObjectOfType<TextReader>();
+            textReader.ForceCloseTextbox();
+        }
+
+        SoundManager.PlayDeathSfx();
+        PlayerAnimator.SetBool(AnimationVariables.Player.Dead, true);
+    }
+
+    public void EquipWeapon(Weapon weapon)
+    {
+        if (EquipedWeapon == weapon)
+            EquipedWeapon = null;
+        else
+            EquipedWeapon = weapon;
+
+        var layerIndex = PlayerAnimator.GetLayerIndex(AnimationLayers.Player.EquipLayer);
+        var weight = EquipedWeapon == null ? 0 : 1;
+        PlayerAnimator.SetLayerWeight(layerIndex, weight);
     }
 
     public HealthStatus GetHealthStatus()
@@ -83,13 +196,28 @@ public class PlayerStatus : MonoBehaviour
         return HealthStatus.Healthy;
     }
 
+    public bool CanPause()
+    {
+        return !LockMovement && Health > 0;
+    }
+
+    public bool CanOpenMenu()
+    {
+        return !Paused && !Reading && Health > 0 && !TakingDamage && !HasSaveUiOpen && !LockMovement;
+    }
+
     public bool IsMovementPrevented()
     {
-        return MenuOpened || LockMovement || TakingDamage || Shooting || Reading || HasSaveUiOpen;
+        return Paused || MenuOpened || LockMovement || TakingDamage || Shooting || Reading || HasSaveUiOpen ||  Health <= 0;
     }
 
     public bool CanInteract()
     {
-        return !MenuOpened && !Reading && !TakingDamage && !Shooting;
+        return !Paused && !MenuOpened && !Reading && !TakingDamage && !Shooting && Health > 0;
+    }
+
+    public bool CanShoot()
+    {
+        return !Paused && !MenuOpened && !Reading && !TakingDamage && Health > 0 && !HasSaveUiOpen && !Reading && !LockMovement;
     }
 }

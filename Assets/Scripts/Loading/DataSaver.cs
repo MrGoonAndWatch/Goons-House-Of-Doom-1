@@ -80,6 +80,9 @@ public class DataSaver : MonoBehaviour
     public void LoadGameStateFromFileData(GameState data)
     {
         _gameState = data;
+        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerInventory = FindObjectOfType<PlayerInventory>();
+        LoadFromGameState(playerStatus, playerInventory);
     }
 
     public void LoadFromGameState(PlayerStatus playerStatus, PlayerInventory playerInventory)
@@ -101,7 +104,7 @@ public class DataSaver : MonoBehaviour
             var targetWeapon = playerInventory.Items[_gameState.EquipedWeaponIndex.Value].Item as Weapon;
             if (targetWeapon != null)
             {
-                playerStatus.EquipedWeapon = targetWeapon;
+                playerStatus.EquipWeapon(targetWeapon);
                 playerInventory.EquipDirty = true;
             }
             else

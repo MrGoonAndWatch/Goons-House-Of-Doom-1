@@ -1,6 +1,6 @@
 ﻿public class Typewriter : Item
 {
-    public override string GetDesription()
+    public override string GetDescription()
     {
         return "A typewriter. If I can find a place to put this down I could record my progress.";
     }

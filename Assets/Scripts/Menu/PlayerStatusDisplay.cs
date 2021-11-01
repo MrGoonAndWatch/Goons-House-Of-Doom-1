@@ -41,8 +41,8 @@ public class PlayerStatusDisplay : MonoBehaviour
                 break;
             case HealthStatus.BadTummyAche:
                 StatusText.text = "Really Bad Tummy Ache";
-                StatusText.color = new Color(191, 127, 0);
-                StatusIcon.color = new Color(191, 127, 0);
+                StatusText.color = new Color(0.74609375f, 0.5f, 0);
+                StatusIcon.color = new Color(0.74609375f, 0.5f, 0);
                 break;
             case HealthStatus.TummyAche:
                 StatusText.text = "Tummy Ache";
@@ -53,6 +53,11 @@ public class PlayerStatusDisplay : MonoBehaviour
                 StatusText.text = "Healthy";
                 StatusText.color = Color.green;
                 StatusIcon.color = Color.green;
+                break;
+            case HealthStatus.SpeedyBoi:
+                StatusText.text = "Speedy Boi";
+                StatusText.color = Color.red;
+                StatusIcon.color = Color.red;
                 break;
         }
     }

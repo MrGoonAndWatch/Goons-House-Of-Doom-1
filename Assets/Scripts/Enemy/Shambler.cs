@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 public class Shambler : Enemy
 {
     public float Speed = 10.0f;
     [Tooltip("How frequently (in seconds) the enemy should look for a new position to move towards.")]
-    public float TargetUpdateFrequency = 1.0f;
+    public float TargetUpdateFrequency = 0.5f;
     public float MaxWanderDistance = 10.0f;
     public float AttackAtDistance = 2.0f;
     public GameObject AttackHitbox;
     [Tooltip("How close to consider the enemy to be 'at' its targeted position (will stop moving).")]
     public float AtTargetThreshold = 5.0f;
+
+    public AudioSource AudioSource;
+    public AudioClip BiteSfx;
+    public AudioMixerGroup Mixer;
+
+    public bool Wander = true;
 
     public Animator Animator;
 
@@ -42,13 +49,20 @@ public class Shambler : Enemy
         _targetPosition = transform.position;
 
         AttackHitbox.SetActive(false);
-
-        // TODO: Do we ever need to worry about setting this elsewhere?
+        
         Animator.SetBool(AnimationVariables.Enemy.Moving, true);
+
+        if (AudioSource == null)
+            AudioSource = gameObject.AddComponent<AudioSource>();
+        if (Mixer != null)
+            AudioSource.outputAudioMixerGroup = Mixer;
     }
 
     void Update()
     {
+        if (PlayerStatus.Paused)
+            return;
+
         _timeSinceTargetUpdate += Time.deltaTime;
 
         if (_timeSinceTargetUpdate > TargetUpdateFrequency)
@@ -73,7 +87,7 @@ public class Shambler : Enemy
             _targetPosition = new Vector3(PlayerStatus.transform.position.x, transform.position.y, PlayerStatus.transform.position.z);
             _chasingPlayer = true;
         }
-        else if(IsAtDestination())
+        else if(Wander && IsAtDestination())
         {
             var targetX = Random.Range(_minWanderX, _maxWanderX);
             var targetZ = Random.Range(_minWanderZ, _maxWanderZ);
@@ -84,7 +98,8 @@ public class Shambler : Enemy
         {
             _chasingPlayer = false;
         }
-        transform.LookAt(_targetPosition, Vector3.up);
+        if(_chasingPlayer || Wander)
+            transform.LookAt(_targetPosition, Vector3.up);
         _timeSinceTargetUpdate = 0;
     }
 
@@ -92,6 +107,8 @@ public class Shambler : Enemy
     {
         if (!_attacking)
             Animator.SetBool(AnimationVariables.Enemy.Attacking, true);
+        AudioSource.clip = BiteSfx;
+        AudioSource.Play();
         AttackHitbox.SetActive(true);
         _attacking = true;
         _timeSinceAttackStart = 0;

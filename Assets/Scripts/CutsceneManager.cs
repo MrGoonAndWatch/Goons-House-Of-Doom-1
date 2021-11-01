@@ -37,6 +37,8 @@ public class CutsceneManager : MonoBehaviour
     {
         StartCutscene();
 
+        SoundManager.PauseSong();
+
         _nextCutsceneInstruction = CutsceneInstructions.StartCountdownTimer;
         _secondsLeftInCutsceneInstruction = 8.0f;
         SoundManager.PlaySelfDestructVoiceLine();
@@ -62,6 +64,7 @@ public class CutsceneManager : MonoBehaviour
             countdown.StartCountdown();
             _nextCutsceneInstruction = null;
             _secondsLeftInCutsceneInstruction = 0.1f;
+            SoundManager.PlaySelfDestructSong();
         }
     }
 

@@ -20,7 +20,7 @@
         return 2.0f;
     }
 
-    public override string GetDesription()
+    public override string GetDescription()
     {
         return "It's a basic handgun.";
     }

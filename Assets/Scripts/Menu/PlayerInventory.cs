@@ -9,6 +9,7 @@ public class PlayerInventory : MonoBehaviour
     public ToggleInventory ToggleInventory;
 
     public Text ExamineText;
+    public RawImage ExamineTexture;
 
     public ItemSlot[] Items;
     public Text[] ItemQtys;
@@ -45,10 +46,12 @@ public class PlayerInventory : MonoBehaviour
 
         EquipDirty = true;
     }
-
-    // TODO: Call this. Use event system?
+    
     public void OnOpenMenu()
     {
+        ExamineTexture.texture = null;
+        ExamineTexture.color = Color.clear;
+        ExamineText.text = "";
         _combiningItems = false;
         _actionMenuOpen = false;
         CloseActionMenu();
@@ -114,6 +117,8 @@ public class PlayerInventory : MonoBehaviour
     {
         if (Items[_currentItemIndex].Item == null)
             return;
+
+        SoundManager.PlayMenuSelectSfx();
 
         if (_combiningItems && _comboSelectionIndex != _currentItemIndex)
             CombineItems(_comboSelectionIndex, _currentItemIndex);
@@ -236,12 +241,14 @@ public class PlayerInventory : MonoBehaviour
 
     void UpdateItemCursorPosition()
     {
+        SoundManager.PlayMenuMoveSfx();
         var targetSlot = Items[_currentItemIndex].RectTransform.position;
         ItemCursor.RectTransform.position = new Vector3(targetSlot.x, targetSlot.y, ItemCursor.RectTransform.position.z);
     }
 
     void UpdateActionCursorPosition()
     {
+        SoundManager.PlayMenuMoveSfx();
         var targetSlot = MenuActions[_currentActionIndex].RectTransform.position;
         ActionCursor.RectTransform.position = new Vector3(targetSlot.x, targetSlot.y, ActionCursor.RectTransform.position.z);
     }
@@ -285,7 +292,9 @@ public class PlayerInventory : MonoBehaviour
         if (currentItem == null)
             return;
 
-        ExamineText.text = currentItem.GetDesription();
+        ExamineTexture.texture = currentItem.MenuIcon;
+        ExamineTexture.color = Color.white;
+        ExamineText.text = currentItem.GetDescription();
     }
 
     void CombineItems(int itemA, int itemB)

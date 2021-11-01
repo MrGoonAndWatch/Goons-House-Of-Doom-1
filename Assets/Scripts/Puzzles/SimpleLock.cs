@@ -6,9 +6,7 @@ public class SimpleLock : MonoBehaviour
     public string[] UnlockText;
     public string LootedText = "There's nothing else inside.";
     public KeyType UnlocksWith;
-
     public Item ContainsItem;
-    public int ItemQty = 1;
 
     private bool _unlocked;
     private bool _looted;
@@ -36,7 +34,7 @@ public class SimpleLock : MonoBehaviour
 
     public virtual void Unlock(Key key)
     {
-        if (_unlocked || key.KeyType != UnlocksWith)
+        if (_unlocked || key.GetKeyType() != UnlocksWith)
             return;
 
         _unlocked = true;

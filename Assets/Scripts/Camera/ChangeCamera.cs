@@ -13,7 +13,7 @@ public class ChangeCamera : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentsInParent<PlayerMovement>() == null)
+        if (other.GetComponent<PlayerStatus>() == null)
             return;
 
         Camera.transform.position = Target.transform.position;

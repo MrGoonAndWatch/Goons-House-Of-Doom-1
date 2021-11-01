@@ -7,7 +7,14 @@ public class Inspectable : MonoBehaviour
     public string[] InspectText;
     public string[] Choices;
 
+    public bool InspectOnce;
+
     protected int TriggerCount;
+
+    public virtual bool CanInspect()
+    {
+        return !InspectOnce || TriggerCount == 0;
+    }
 
     public virtual void OnUsed()
     {

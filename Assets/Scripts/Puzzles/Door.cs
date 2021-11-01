@@ -45,7 +45,7 @@ public class Door : MonoBehaviour
 
     public void Unlock(Key key)
     {
-        if (_unlocked || key.KeyType != LocksWith)
+        if (_unlocked || key.GetKeyType() != LocksWith)
             return;
 
         _unlocked = true;

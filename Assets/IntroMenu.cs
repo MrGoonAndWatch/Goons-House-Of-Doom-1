@@ -21,12 +21,17 @@ public class IntroMenu : MonoBehaviour
 
     private float _timeTilGameStartSeconds;
     private bool _startingGame;
-
-    [SerializeField] private AudioMixer mixer;
+    
     // Start is called before the first frame update
     void Start()
     {
-        if (VideoPlayer != null)
+        if (VideoPlayer == null)
+        {
+            _cutsceneFinished = true;
+            MenuUi.SetActive(true);
+            TitleUi.SetActive(true);
+        }
+        else
         {
             _remainingIntroVideoInSec = VideoPlayer.length;
             MenuUi.SetActive(false);
@@ -38,6 +43,9 @@ public class IntroMenu : MonoBehaviour
 
     private void LoadSaveFileList()
     {
+        if (LoadSaveFileSlots == null || LoadSaveFileSlots.Length == 0)
+            return;
+
         _saveFileSlots = new string[LoadSaveFileSlots.Length];
         var folderPath = Application.dataPath + SaveGame.SaveGamePath;
         var saveFiles = SaveGame.GetSaveFilesByMostRecentFirst(folderPath).Take(8).ToArray();
@@ -134,22 +142,22 @@ public class IntroMenu : MonoBehaviour
 
     public void ChangeMasterAudio(Slider audioSlider)
     {
-      mixer.SetFloat("Master",audioSlider.value);
+        SoundManager.SetMainVolume(audioSlider.value);
     }
 
     public void ChangeStingAudio(Slider audioSlider)
     {
-        mixer.SetFloat("Stings",audioSlider.value);
+        SoundManager.SetSfxVolume(audioSlider.value);
     }
 
     public void ChangeBGMAudio(Slider audioSlider)
     {
-        mixer.SetFloat("Music",audioSlider.value);
+        SoundManager.SetBgmVolume(audioSlider.value);
     }
 
     public void ChangeVoiceAudio(Slider audioSlider)
     {
-        mixer.SetFloat("Voice",audioSlider.value);
+        SoundManager.SetVoiceVolume(audioSlider.value);
     }
     
     private void Update()

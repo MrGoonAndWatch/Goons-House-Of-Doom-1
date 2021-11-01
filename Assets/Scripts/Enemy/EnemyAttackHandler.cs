@@ -30,26 +30,6 @@ public class EnemyAttackHandler : MonoBehaviour
 
     private void ProcessDamage(EnemyAttack enemyAttack)
     {
-        SoundManager.PlayHitSfx();
-        PlayerStatus.TakingDamage = true;
-        PlayerStatus.AddHealth(-enemyAttack.Damage);
-    }
-
-    void Update()
-    {
-        if (PlayerStatus.TakingDamage)
-        {
-            if (PlayerStatus.Health > 0)
-            {
-                // TODO: Do hit animation.
-            }
-            else
-            {
-                // TODO: Do death animation.
-            }
-
-            // TODO: Check if animation is done.
-            PlayerStatus.TakingDamage = false;
-        }
+        PlayerStatus.HitByAttack(enemyAttack.Damage, AnimationVariables.Player.Bitten);
     }
 }

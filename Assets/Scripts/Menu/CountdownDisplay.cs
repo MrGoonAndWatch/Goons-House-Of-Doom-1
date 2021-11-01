@@ -6,6 +6,7 @@ public class CountdownDisplay : MonoBehaviour
 {
     public GameObject CountdownUi;
     public Text CountdownTextbox;
+    public PlayerStatus PlayerStatus;
 
     private bool _countdownActive;
     private TimeSpan _countdown;
@@ -20,13 +21,18 @@ public class CountdownDisplay : MonoBehaviour
     
     void Update()
     {
+        if (PlayerStatus.Paused || PlayerStatus.GetHealthStatus() == HealthStatus.Dead)
+            return;
+
         if (_countdownActive)
         {
             _countdown = _countdown.Subtract(TimeSpan.FromSeconds(Time.deltaTime));
             if (_countdown.TotalMinutes < 0)
             {
                 _countdown = TimeSpan.Zero;
-                // TODO: Blow up.
+                SoundManager.PlayExplosionSfx();
+                PlayerStatus.SetHealth(0);
+                PlayerStatus.ForceGameOverUi();
             }
 
             CountdownTextbox.text = GetTimerString(_countdown);

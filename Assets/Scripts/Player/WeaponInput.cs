@@ -20,6 +20,9 @@ public class WeaponInput : MonoBehaviour
     
     void Update()
     {
+        if (!_playerStatus.CanShoot())
+            return;
+
         if(_shootCooldown > 0)
             _shootCooldown -= Time.deltaTime;
 

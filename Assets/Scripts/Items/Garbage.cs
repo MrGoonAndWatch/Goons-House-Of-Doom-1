@@ -1,6 +1,6 @@
 ﻿public class Garbage : Item
 {
-    public override string GetDesription()
+    public override string GetDescription()
     {
         return "It's a useless pile of junk.";
     }
@@ -23,7 +23,7 @@
     public override bool UseItem()
     {
         var playerStatus = FindObjectOfType<PlayerStatus>();
-        playerStatus.SetHealth(1);
+        playerStatus.SetHealth(40);
         return true;
     }
 

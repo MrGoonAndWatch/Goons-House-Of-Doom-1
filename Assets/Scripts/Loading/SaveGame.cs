@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SaveGame : MonoBehaviour
 {
     public GameObject SaveGameUi;
     public GameObject LoadingMessage;
-    public Text SaveFileList;
+    public GameObject SaveFileList;
 
     public const string SaveGamePath = "/Saves/";
     private string _fullGameSavePath;
@@ -21,28 +19,30 @@ public class SaveGame : MonoBehaviour
     private bool _menuOpened;
     private bool _loadingSaveFiles;
     private bool _firstFrameSinceLoaded;
-    private Task _loadSaveFilesTask;
+    //private Task _loadSaveFilesTask;
     private List<string> _saveFileNames;
 
     void Start()
     {
         _fullGameSavePath = Application.dataPath + SaveGamePath;
         Directory.CreateDirectory(_fullGameSavePath);
+        LoadingMessage.SetActive(false);
     }
 
     void Update()
     {
         if (!_menuOpened)
             return;
-
+        /*
         if (_loadingSaveFiles && _loadSaveFilesTask.IsCompleted)
         {
             LoadingMessage.SetActive(false);
             _loadingSaveFiles = false;
             _firstFrameSinceLoaded = true;
         }
+        */
 
-        if (!_loadingSaveFiles)
+        //if (!_loadingSaveFiles)
             ProcessFileSelect();
     }
 
@@ -50,7 +50,7 @@ public class SaveGame : MonoBehaviour
     {
         if (_firstFrameSinceLoaded)
         {
-            SaveFileList.gameObject.SetActive(true);
+            //SaveFileList.gameObject.SetActive(true);
             _firstFrameSinceLoaded = false;
         }
         
@@ -60,7 +60,7 @@ public class SaveGame : MonoBehaviour
         }
         else if (Input.GetButtonDown(GameConstants.Controls.Aim))
         {
-            Close();
+            CreateSaveFile();
         }
         // TODO: Process selecting file for overwrite/load/etc.
         // throw new System.NotImplementedException();
@@ -106,10 +106,10 @@ public class SaveGame : MonoBehaviour
 
         _loadingSaveFiles = true;
         LoadingMessage.SetActive(true);
-        SaveFileList.gameObject.SetActive(false);
+        //SaveFileList.gameObject.SetActive(false);
         SaveGameUi.SetActive(true);
 
-        _loadSaveFilesTask = Task.Run(RefreshSaveFileList);
+        //_loadSaveFilesTask = Task.Run(RefreshSaveFileList);
 
         _menuOpened = true;
     }
@@ -135,7 +135,6 @@ public class SaveGame : MonoBehaviour
         }
         
         var displayStr = saveFileDisplayStr.ToString();
-        SaveFileList.text = displayStr;
     }
 
     // HACK: God forgive me this is hacky.

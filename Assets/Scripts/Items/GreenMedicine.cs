@@ -12,7 +12,7 @@
         
     }
 
-    public override string GetDesription()
+    public override string GetDescription()
     {
         return "A special mixture of chemicals that treat injuries almost instantly.";
     }

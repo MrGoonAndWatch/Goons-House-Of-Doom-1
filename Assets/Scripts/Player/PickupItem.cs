@@ -6,6 +6,8 @@ public class PickupItem : MonoBehaviour
 {
     public PlayerInventory Inventory;
 
+    private PlayerStatus _playerStatus;
+
     private List<Item> _touchingItems;
 
     void Start()
@@ -14,6 +16,8 @@ public class PickupItem : MonoBehaviour
         {
             Inventory = FindObjectOfType<PlayerInventory>();
         }
+
+        _playerStatus = FindObjectOfType<PlayerStatus>();
 
         _touchingItems = new List<Item>();
     }
@@ -43,7 +47,7 @@ public class PickupItem : MonoBehaviour
     
     void Update()
     {
-        if (_touchingItems.Any() &&
+        if (_playerStatus.CanInteract() && _touchingItems.Any() &&
             !Input.GetButton(GameConstants.Controls.Aim) &&
             Input.GetButtonDown(GameConstants.Controls.Action))
             PickupCurrentItem();

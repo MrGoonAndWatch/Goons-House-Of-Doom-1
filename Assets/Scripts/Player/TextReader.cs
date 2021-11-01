@@ -65,7 +65,7 @@ public class TextReader : MonoBehaviour
 
     public void ReadText(string[] lines, string[] choices = null, Action onChoiceConfirmed = null)
     {
-        if (PlayerStatus.Reading || _advanceTextCooldownRemaining > 0)
+        if (PlayerStatus.LockMovement || PlayerStatus.Reading || _advanceTextCooldownRemaining > 0)
             return;
 
         _advanceTextCooldownRemaining = AdvanceTextCooldown;
@@ -114,6 +114,13 @@ public class TextReader : MonoBehaviour
                 choicesWithSelection.Append("   ");
         }
         TextBox.text = choicesWithSelection.ToString();
+    }
+
+    public void ForceCloseTextbox()
+    {
+        if(_queuedText)
+            CloseTextbox();
+        CloseTextbox();
     }
 
     private void CloseTextbox()

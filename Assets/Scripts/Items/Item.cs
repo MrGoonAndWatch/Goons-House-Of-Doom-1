@@ -6,7 +6,7 @@ public abstract class Item: MonoBehaviour
 
     public int QtyOnPickup = 1;
 
-    public abstract string GetDesription();
+    public abstract string GetDescription();
 
     protected const string ItemPrefabFolderPath = "Items/";
 
