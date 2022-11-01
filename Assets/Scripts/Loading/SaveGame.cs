@@ -140,6 +140,9 @@ public class SaveGame : MonoBehaviour
     // HACK: God forgive me this is hacky.
     public static List<string> GetSaveFilesByMostRecentFirst(string folderPath)
     {
+        if (!Directory.Exists(folderPath))
+            Directory.CreateDirectory(folderPath);
+
         var files = Directory.GetFiles(folderPath).Where(f => f.EndsWith(".sav"));
 
         var filenamesWithLastModified = new List<Tuple<string, DateTime>>();

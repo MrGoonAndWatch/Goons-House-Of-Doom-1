@@ -11,9 +11,12 @@ public class DamageHandler : MonoBehaviour
 
     private bool _dead;
 
+    private HordeModeManager _hordeModeManager;
+
     void Start()
     {
         _hp = MaxHp;
+        _hordeModeManager = FindObjectOfType<HordeModeManager>();
     }
 
     void Update()
@@ -29,6 +32,8 @@ public class DamageHandler : MonoBehaviour
 
             // TODO: Activate some animation instead.
             gameObject.SetActive(false);
+            if (_hordeModeManager != null)
+                _hordeModeManager.AddKill();
         }
     }
 

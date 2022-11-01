@@ -1,4 +1,7 @@
-﻿public static class GameConstants
+﻿using System.Diagnostics;
+using JetBrains.Annotations;
+
+public static class GameConstants
 {
     public const double GreenMedicineHp = 69.420;
 
@@ -83,4 +86,19 @@ public static class AnimationLayers
     {
         public const string EquipLayer = "Equip Layer";
     }
+}
+
+public static class SceneNames
+{
+    public const string HordeMode = "HordeMode";
+    public const string GameStartup = "GameStartup";
+    public const string MainHall = "Main Hall";
+    public const string TitleScreen = "Homage_Intro";
+}
+
+public static class ResourceNames
+{
+    private const string ItemFolder = "Items/";
+
+    public const string UnlimitedHandgun = ItemFolder + "UnlimitedHandgun";
 }

@@ -21,15 +21,18 @@ public class IntroMenu : MonoBehaviour
 
     private float _timeTilGameStartSeconds;
     private bool _startingGame;
-    
+    private bool _startingHordeMode;
+
     // Start is called before the first frame update
     void Start()
     {
         if (VideoPlayer == null)
         {
             _cutsceneFinished = true;
-            MenuUi.SetActive(true);
-            TitleUi.SetActive(true);
+            if(MenuUi != null)
+                MenuUi.SetActive(true);
+            if(TitleUi != null)
+                TitleUi.SetActive(true);
         }
         else
         {
@@ -66,9 +69,21 @@ public class IntroMenu : MonoBehaviour
         _startingGame = true;
     }
 
+    public void PlayHordeMode()
+    {
+        var clipLength = SoundManager.PlayGameStartSfx();
+        _timeTilGameStartSeconds = clipLength;
+        _startingHordeMode = true;
+    }
+
     public void QuitGame()
     {
-        Application.Quit();
+        // TODO: Going back to title screen breaks horribly!
+        //var hordeModeObj = FindObjectOfType<HordeModeManager>();
+        //if (hordeModeObj == null)
+            Application.Quit();
+        //else
+        //    SceneManager.LoadScene(SceneNames.TitleScreen);
     }
 
 //Everything below this point is a public void that the UI can call on
@@ -165,6 +180,7 @@ public class IntroMenu : MonoBehaviour
         ProcessVideoLogic();
 
         WaitForGameToStart();
+        WaitForHordeModeToStart();
     }
 
     private void ProcessVideoLogic()
@@ -197,7 +213,20 @@ public class IntroMenu : MonoBehaviour
 
         if (_timeTilGameStartSeconds <= 0)
         {
-            SceneManager.LoadScene("GameStartup");
+            SceneManager.LoadScene(SceneNames.GameStartup);
+        }
+    }
+
+    private void WaitForHordeModeToStart()
+    {
+        if (!_startingHordeMode)
+            return;
+
+        _timeTilGameStartSeconds -= Time.deltaTime;
+
+        if (_timeTilGameStartSeconds <= 0)
+        {
+            SceneManager.LoadScene(SceneNames.HordeMode);
         }
     }
 
@@ -216,6 +245,6 @@ public class IntroMenu : MonoBehaviour
         var loadGameData = FindObjectOfType<LoadGameData>();
         loadGameData.SetGameState(gameState);
 
-        SceneManager.LoadScene("GameStartup");
+        SceneManager.LoadScene(SceneNames.GameStartup);
     }
 }

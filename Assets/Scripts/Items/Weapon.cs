@@ -2,6 +2,22 @@
 {
     public int Ammo;
 
+    protected virtual bool IsUnlimited()
+    {
+        return false;
+    }
+
+    public int GetAmmo()
+    {
+        return IsUnlimited() ? 1 : Ammo;
+    }
+
+    public void DecreaseAmmo(int amount = 1)
+    {
+        if (IsUnlimited()) return;
+        Ammo -= amount;
+    }
+
     public abstract void PlaySfx();
     public abstract bool IsHitscan();
     public abstract float GetDamagePerHit();

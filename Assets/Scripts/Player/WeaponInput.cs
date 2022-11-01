@@ -37,7 +37,7 @@ public class WeaponInput : MonoBehaviour
 
     void Shoot()
     {
-        if (_shootCooldown > 0 || _playerStatus.EquipedWeapon == null || _playerStatus.EquipedWeapon.Ammo <= 0)
+        if (_shootCooldown > 0 || _playerStatus.EquipedWeapon == null || _playerStatus.EquipedWeapon.GetAmmo() <= 0)
             return;
 
         _shootCooldown = _playerStatus.EquipedWeapon.GetRateOfFire();
@@ -58,7 +58,7 @@ public class WeaponInput : MonoBehaviour
             throw new NotImplementedException();
         }
 
-        _playerStatus.EquipedWeapon.Ammo--;
+        _playerStatus.EquipedWeapon.DecreaseAmmo();
 
         _playerInventory.RefreshItemUi();
     }

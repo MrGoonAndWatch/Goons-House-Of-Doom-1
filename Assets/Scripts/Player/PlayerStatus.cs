@@ -35,8 +35,17 @@ public class PlayerStatus : MonoBehaviour
     public float HitCooldown = 1.0f;
     private float _remainingHitCooldown;
 
+    private static PlayerStatus _instance;
+
     private void Awake()
     {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+
         DontDestroyOnLoad(gameObject);
         KilledEnemies = new List<int>();
         TriggeredEvents = new List<GlobalEvent>();
@@ -76,8 +85,16 @@ public class PlayerStatus : MonoBehaviour
 
     private void EnableGameOverUi()
     {
-        GameOverUi.SetActive(true);
-        _showingGameOverUi = true;
+        var hordeModeManager = FindObjectOfType<HordeModeManager>();
+        if (hordeModeManager == null)
+        {
+            GameOverUi.SetActive(true);
+            _showingGameOverUi = true;
+        }
+        else
+        {
+            hordeModeManager.OnGameEnd();
+        }
     }
 
     private void ProcessExitInput()

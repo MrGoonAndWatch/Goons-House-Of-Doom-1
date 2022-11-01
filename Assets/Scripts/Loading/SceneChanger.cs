@@ -5,8 +5,17 @@ public class SceneChanger : MonoBehaviour
 {
     public DataSaver DataSaver;
 
+    private static SceneChanger _instance;
+
     void Awake()
     {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+
         DontDestroyOnLoad(gameObject);
         if (DataSaver == null)
             DataSaver = FindObjectOfType<DataSaver>();

@@ -36,7 +36,7 @@ public class GameStartup : MonoBehaviour
 
         _loading = true;
 
-        var targetScene = _sceneLoadData == null ? "Main Hall" : _sceneLoadData.TargetScene;
+        var targetScene = _sceneLoadData == null ? SceneNames.MainHall : _sceneLoadData.TargetScene;
 
         if (_sceneLoadData != null && _sceneLoadData.LoadPosition.HasValue)
         {
