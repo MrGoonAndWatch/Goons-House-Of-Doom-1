@@ -41,14 +41,14 @@ public class TextReader : MonoBehaviour
 
         if (_makingChoice)
         {
-            if (Input.GetButtonDown(GameConstants.Controls.Action))
+            if (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction())
                 ConfirmChoice();
-            else if (Input.GetButtonDown(GameConstants.Controls.Aim))
+            else if (Input.GetButtonDown(GameConstants.Controls.Aim) || ControllerInputProcessor.PressedAim())
                 CloseTextbox();
             else
                 ProcessChoiceMovement();
         }
-        else if (Input.GetButtonDown(GameConstants.Controls.Action))
+        else if (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction())
             AdvanceText();
     }
 

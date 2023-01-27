@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (verticalInput > MovementDeadzone)
         {
-            var speed = Input.GetButton(GameConstants.Controls.Run) ? currentSpeed.RunSpeed : currentSpeed.WalkSpeed;
+            var speed = Input.GetButton(GameConstants.Controls.Run) || ControllerInputProcessor.IsPressingRun() ? currentSpeed.RunSpeed : currentSpeed.WalkSpeed;
             transform.localPosition += transform.forward * speed * Time.deltaTime;
             moving = true;
         }
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             moving = true;
         }
 
-        if (Input.GetButtonDown(GameConstants.Controls.Run) && verticalInput < 0)
+        if ((Input.GetButtonDown(GameConstants.Controls.Run) || ControllerInputProcessor.PressedRun()) && verticalInput < 0)
         {
             _quickTurnTargetRotation = transform.eulerAngles + 180f * Vector3.up;
             _quickTurnTargetRotation = new Vector3(_quickTurnTargetRotation.x % 360, _quickTurnTargetRotation.y % 360,

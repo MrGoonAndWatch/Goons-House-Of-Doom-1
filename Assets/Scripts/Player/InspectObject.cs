@@ -18,7 +18,7 @@ public class InspectObject : MonoBehaviour
     
     void Update()
     {
-        if(_playerStatus.CanInteract() && Input.GetButtonDown(GameConstants.Controls.Action))
+        if(_playerStatus.CanInteract() && (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction()))
             ProcessInspect();
     }
 

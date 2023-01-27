@@ -26,12 +26,12 @@ public class WeaponInput : MonoBehaviour
         if(_shootCooldown > 0)
             _shootCooldown -= Time.deltaTime;
 
-        if (_playerStatus.EquipedWeapon != null && Input.GetButtonDown(GameConstants.Controls.Aim))
+        if (_playerStatus.EquipedWeapon != null && (Input.GetButtonDown(GameConstants.Controls.Aim) || ControllerInputProcessor.PressedAim()))
             _playerStatus.Aiming = true;
-        else if (Input.GetButtonUp(GameConstants.Controls.Aim))
+        else if (Input.GetButtonUp(GameConstants.Controls.Aim) || ControllerInputProcessor.ReleasedAim())
             _playerStatus.Aiming = false;
 
-        if (_playerStatus.Aiming && Input.GetButtonDown(GameConstants.Controls.Action))
+        if (_playerStatus.Aiming && (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction()))
             Shoot();
     }
 

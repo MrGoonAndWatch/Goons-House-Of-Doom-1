@@ -14,7 +14,7 @@ public class TogglePauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerStatus.CanPause() && Input.GetButtonDown(GameConstants.Controls.Pause))
+        if (PlayerStatus.CanPause() && (Input.GetButtonDown(GameConstants.Controls.Pause) || ControllerInputProcessor.PressedPause()))
         {
             TogglePause();
         }

@@ -102,7 +102,7 @@ public class PlayerStatus : MonoBehaviour
         if (!_showingGameOverUi)
             return;
 
-        if(Input.GetButtonDown(GameConstants.Controls.Pause))
+        if(Input.GetButtonDown(GameConstants.Controls.Pause) || ControllerInputProcessor.PressedPause())
             Application.Quit();
     }
 

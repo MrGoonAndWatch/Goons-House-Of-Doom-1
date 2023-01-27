@@ -48,8 +48,8 @@ public class PickupItem : MonoBehaviour
     void Update()
     {
         if (_playerStatus.CanInteract() && _touchingItems.Any() &&
-            !Input.GetButton(GameConstants.Controls.Aim) &&
-            Input.GetButtonDown(GameConstants.Controls.Action))
+            !(Input.GetButton(GameConstants.Controls.Aim) || ControllerInputProcessor.IsPressingAim()) &&
+            (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction()))
             PickupCurrentItem();
     }
 

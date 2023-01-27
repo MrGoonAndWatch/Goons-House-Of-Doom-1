@@ -55,3 +55,4 @@ Build(do_not_commit)/
 Assets/Editor Default Resources.meta
 Assets/Gizmos.meta
 
+*.log

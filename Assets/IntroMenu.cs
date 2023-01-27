@@ -190,7 +190,7 @@ public class IntroMenu : MonoBehaviour
 
         _remainingIntroVideoInSec -= Time.deltaTime;
 
-        if (Input.GetButtonDown(GameConstants.Controls.Action))
+        if (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction())
         {
             _remainingIntroVideoInSec = 0;
         }

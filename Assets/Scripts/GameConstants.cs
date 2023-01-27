@@ -53,6 +53,22 @@ public enum DoorLoadType
     WoodDoor1 = 1,
 }
 
+public enum ControllerType
+{
+    Unknown,
+    Xbox,
+    PlayStation
+}
+
+public enum LogicalControllerButtons
+{
+    TopButton,
+    LeftButton,
+    RightButton,
+    BottomButton,
+    StartButton
+}
+
 public static class AnimationNames
 {
     public static class Enemy

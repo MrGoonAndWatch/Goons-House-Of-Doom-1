@@ -80,10 +80,10 @@ public class PlayerInventory : MonoBehaviour
         else
             HandleItemCursorMovement(horizontal, vertical);
 
-        if (Input.GetButtonDown(GameConstants.Controls.Action))
+        if (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction())
             HandleConfirmPressed();
 
-        if (Input.GetButtonDown(GameConstants.Controls.Aim))
+        if (Input.GetButtonDown(GameConstants.Controls.Aim) || ControllerInputProcessor.PressedAim())
             HandleBackPressed();
     }
 

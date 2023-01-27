@@ -54,11 +54,11 @@ public class SaveGame : MonoBehaviour
             _firstFrameSinceLoaded = false;
         }
         
-        if (Input.GetButtonDown(GameConstants.Controls.Action))
+        if (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction())
         {
             CreateSaveFile();
         }
-        else if (Input.GetButtonDown(GameConstants.Controls.Aim))
+        else if (Input.GetButtonDown(GameConstants.Controls.Aim) || ControllerInputProcessor.PressedAim())
         {
             CreateSaveFile();
         }

@@ -18,8 +18,8 @@ public class UseKey : MonoBehaviour
     void Update()
     {
         if (PlayerStatus.CanInteract() &&
-            !Input.GetButtonDown(GameConstants.Controls.Aim) &&
-            Input.GetButtonDown(GameConstants.Controls.Action))
+            !(Input.GetButtonDown(GameConstants.Controls.Aim) || ControllerInputProcessor.PressedAim()) &&
+            (Input.GetButtonDown(GameConstants.Controls.Action) || ControllerInputProcessor.PressedAction()))
         {
             if(_collidedSimpleLocks.Any())
                 _collidedSimpleLocks.First().Inspect();
