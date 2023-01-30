@@ -740,7 +740,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -3933,7 +3933,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -3958,10 +3958,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8822337187835233149}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8822337187166236810}
+        m_TargetAssemblyTypeName: IntroMenu, Assembly-CSharp
+        m_MethodName: OpenSettings
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7623,7 +7623,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -7675,6 +7675,8 @@ GameObject:
   - component: {fileID: 8822337187166236810}
   - component: {fileID: 4524743452584549704}
   - component: {fileID: 3649802701849008774}
+  - component: {fileID: 2893899979459551684}
+  - component: {fileID: 5897708914302972208}
   m_Layer: 5
   m_Name: Pause Menu
   m_TagString: Untagged
@@ -7782,6 +7784,15 @@ MonoBehaviour:
   MenuUi: {fileID: 7547512766296066772}
   VideoPlayer: {fileID: 0}
   LoadSaveFileSlots: []
+  _settingsMenuUi: {fileID: 8822337187835233149}
+  _creditsMenuUi: {fileID: 0}
+  _loadingMenuUi: {fileID: 0}
+  _controlsMenuUi: {fileID: 0}
+  _closeSubMenu: {fileID: 2893899979459551684}
+  _closeSettingsMenuBtn: {fileID: 8822337187543653474}
+  _closeLoadingMenuBtn: {fileID: 0}
+  _closeCreditsMenuBtn: {fileID: 0}
+  _closeControlsMenuBtn: {fileID: 0}
 --- !u!114 &4524743452584549704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7817,6 +7828,50 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!114 &2893899979459551684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8822337187166236813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6fcc1824d9fee44cb8d7f105ffadcbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5897708914302972208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8822337187166236813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e04f55bc83ddb84d8f4229abeca16c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventSystem: {fileID: 6197147766012443708}
+  _buttons:
+  - Button: {fileID: 4080258610082322930}
+    X: 0
+    Y: 0
+  - Button: {fileID: 8822337185836517362}
+    X: 0
+    Y: 1
+  - Button: {fileID: 8822337187127177949}
+    X: 0
+    Y: 2
+  _colors:
+    m_NormalColor: {r: 0, g: 0.15254259, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9987136, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0, g: 0.0302207, b: 0.1981132, a: 1}
+    m_SelectedColor: {r: 0, g: 0.15294118, b: 1, a: 1}
+    m_DisabledColor: {r: 0.3213599, g: 0.3573384, b: 0.5566038, a: 0.49803922}
+    m_ColorMultiplier: 0
+    m_FadeDuration: 0
+  _enabled: 0
 --- !u!1 &8822337187241301791
 GameObject:
   m_ObjectHideFlags: 0
@@ -8579,10 +8634,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8822337187835233149}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8822337187166236810}
+        m_TargetAssemblyTypeName: IntroMenu, Assembly-CSharp
+        m_MethodName: CloseSettings
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10388,6 +10443,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5023443881324028530, guid: 6c3d6c7e2b3cb1741b85ff607bbf18d2, type: 3}
   m_PrefabInstance: {fileID: 7517632078360531352}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6197147766012443708 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4491020684507753892, guid: 6c3d6c7e2b3cb1741b85ff607bbf18d2, type: 3}
+  m_PrefabInstance: {fileID: 7517632078360531352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8903621575840133878 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1424256981928420206, guid: 6c3d6c7e2b3cb1741b85ff607bbf18d2, type: 3}

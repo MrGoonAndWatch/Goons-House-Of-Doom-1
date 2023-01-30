@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
@@ -15,6 +14,24 @@ public class IntroMenu : MonoBehaviour
     public GameObject MenuUi;
     public VideoPlayer VideoPlayer;
     public TextMeshProUGUI[] LoadSaveFileSlots;
+    [SerializeField]
+    private GameObject _settingsMenuUi;
+    [SerializeField]
+    private GameObject _creditsMenuUi;
+    [SerializeField]
+    private GameObject _loadingMenuUi;
+    [SerializeField]
+    private GameObject _controlsMenuUi;
+    [SerializeField]
+    private CloseSubMenu _closeSubMenu;
+    [SerializeField]
+    private Button _closeSettingsMenuBtn;
+    [SerializeField]
+    private Button _closeLoadingMenuBtn;
+    [SerializeField]
+    private Button _closeCreditsMenuBtn;
+    [SerializeField]
+    private Button _closeControlsMenuBtn;
     private string[] _saveFileSlots;
 
     private bool _cutsceneFinished;
@@ -23,12 +40,17 @@ public class IntroMenu : MonoBehaviour
     private bool _startingGame;
     private bool _startingHordeMode;
 
+    private MenuTabProcessing _menuTabProcessing;
+
     // Start is called before the first frame update
     void Start()
     {
+        _menuTabProcessing = FindObjectOfType<MenuTabProcessing>();
+
         if (VideoPlayer == null)
         {
             _cutsceneFinished = true;
+            _menuTabProcessing.StartProcessing();
             if(MenuUi != null)
                 MenuUi.SetActive(true);
             if(TitleUi != null)
@@ -61,9 +83,67 @@ public class IntroMenu : MonoBehaviour
         }
     }
 
+    public void OpenSettings()
+    {
+        ShowSubMenu(_settingsMenuUi);
+        _closeSubMenu.StartCloseListener(_closeSettingsMenuBtn);
+    }
+
+    public void OpenCredits()
+    {
+        ShowSubMenu(_creditsMenuUi);
+        _closeSubMenu.StartCloseListener(_closeCreditsMenuBtn);
+    }
+
+    public void OpenLoading()
+    {
+        ShowSubMenu(_loadingMenuUi);
+        _closeSubMenu.StartCloseListener(_closeLoadingMenuBtn);
+    }
+
+    public void OpenControls()
+    {
+        ShowSubMenu(_controlsMenuUi);
+        _closeSubMenu.StartCloseListener(_closeControlsMenuBtn);
+    }
+
+    private void ShowSubMenu(GameObject menu)
+    {
+        _menuTabProcessing.StopProcessing();
+        //MenuUi.SetActive(false);
+        menu.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        HideSubMenu(_settingsMenuUi);
+    }
+
+    public void CloseCredits()
+    {
+        HideSubMenu(_creditsMenuUi);
+    }
+
+    public void CloseLoading()
+    {
+        HideSubMenu(_loadingMenuUi);
+    }
+
+    public void CloseControls()
+    {
+        HideSubMenu(_controlsMenuUi);
+    }
+
+    private void HideSubMenu(GameObject menu)
+    {
+        _menuTabProcessing.StartProcessing();
+        menu.SetActive(false);
+        //MenuUi.SetActive(true);
+    }
 
     public void PlayGame(int firstScene)
     {
+        _menuTabProcessing.StopProcessing();
         var clipLength = SoundManager.PlayGameStartSfx();
         _timeTilGameStartSeconds = clipLength;
         _startingGame = true;
@@ -71,6 +151,7 @@ public class IntroMenu : MonoBehaviour
 
     public void PlayHordeMode()
     {
+        _menuTabProcessing.StopProcessing();
         var clipLength = SoundManager.PlayGameStartSfx();
         _timeTilGameStartSeconds = clipLength;
         _startingHordeMode = true;
@@ -78,6 +159,7 @@ public class IntroMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        _menuTabProcessing.StopProcessing();
         // TODO: Going back to title screen breaks horribly!
         //var hordeModeObj = FindObjectOfType<HordeModeManager>();
         //if (hordeModeObj == null)
@@ -201,6 +283,7 @@ public class IntroMenu : MonoBehaviour
             MenuUi.SetActive(true);
             TitleUi.SetActive(true);
             _cutsceneFinished = true;
+            _menuTabProcessing.StartProcessing();
         }
     }
 
