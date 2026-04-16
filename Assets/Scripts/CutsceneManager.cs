@@ -11,7 +11,7 @@ public class CutsceneManager : MonoBehaviour
     private void Start()
     {
         if (PlayerStatus == null)
-            PlayerStatus = FindObjectOfType<PlayerStatus>();
+            PlayerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     private void Update()
@@ -60,7 +60,7 @@ public class CutsceneManager : MonoBehaviour
     {
         if (_nextCutsceneInstruction == CutsceneInstructions.StartCountdownTimer)
         {
-            var countdown = FindObjectOfType<CountdownDisplay>();
+            var countdown = FindAnyObjectByType<CountdownDisplay>();
             countdown.StartCountdown();
             _nextCutsceneInstruction = null;
             _secondsLeftInCutsceneInstruction = 0.1f;

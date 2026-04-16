@@ -14,10 +14,10 @@ public class PickupItem : MonoBehaviour
     {
         if (Inventory == null)
         {
-            Inventory = FindObjectOfType<PlayerInventory>();
+            Inventory = FindAnyObjectByType<PlayerInventory>();
         }
 
-        _playerStatus = FindObjectOfType<PlayerStatus>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
 
         _touchingItems = new List<Item>();
     }
@@ -42,7 +42,7 @@ public class PickupItem : MonoBehaviour
         if (item == null)
             return;
 
-        _touchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
+        _touchingItems.RemoveAll(i => i.GetEntityId().Equals(item.GetEntityId()));
     }
     
     void Update()
@@ -63,7 +63,7 @@ public class PickupItem : MonoBehaviour
         var remainingQty = Inventory.AddItem(item);
         if (item.ItemId != 0 && remainingQty != item.QtyOnPickup)
         {
-            var playerStatus = FindObjectOfType<PlayerStatus>();
+            var playerStatus = FindAnyObjectByType<PlayerStatus>();
             playerStatus.GrabItem(item.ItemId);
         }
 
@@ -72,6 +72,6 @@ public class PickupItem : MonoBehaviour
         else
             item.QtyOnPickup = remainingQty;
 
-        _touchingItems.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
+        _touchingItems.RemoveAll(i => i.GetEntityId().Equals(item.GetEntityId()));
     }
 }

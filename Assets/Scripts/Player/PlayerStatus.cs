@@ -85,7 +85,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void EnableGameOverUi()
     {
-        var hordeModeManager = FindObjectOfType<HordeModeManager>();
+        var hordeModeManager = FindAnyObjectByType<HordeModeManager>();
         if (hordeModeManager == null)
         {
             GameOverUi.SetActive(true);
@@ -172,13 +172,13 @@ public class PlayerStatus : MonoBehaviour
 
         if (MenuOpened)
         {
-            var inv = FindObjectOfType<ToggleInventory>();
+            var inv = FindAnyObjectByType<ToggleInventory>();
             inv.ToggleMenu();
         }
 
         if (Reading)
         {
-            var textReader = FindObjectOfType<TextReader>();
+            var textReader = FindAnyObjectByType<TextReader>();
             textReader.ForceCloseTextbox();
         }
 

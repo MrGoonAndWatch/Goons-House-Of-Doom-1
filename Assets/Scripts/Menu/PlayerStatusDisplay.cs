@@ -11,7 +11,7 @@ public class PlayerStatusDisplay : MonoBehaviour
 
     void Start()
     {
-        PlayerStatus = FindObjectOfType<PlayerStatus>();
+        PlayerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     void Update()

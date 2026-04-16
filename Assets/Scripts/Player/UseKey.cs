@@ -56,9 +56,9 @@ public class UseKey : MonoBehaviour
     {
         var simpleLock = c.GetComponent<SimpleLock>();
         if (simpleLock != null)
-            _collidedSimpleLocks.RemoveAll(l => l.GetInstanceID() == simpleLock.GetInstanceID());
+            _collidedSimpleLocks.RemoveAll(l => l.GetEntityId().Equals(simpleLock.GetEntityId()));
         var door = c.GetComponent<Door>();
         if (door != null)
-            _collidedDoors.RemoveAll(d => d.GetInstanceID() == door.GetInstanceID());
+            _collidedDoors.RemoveAll(d => d.GetEntityId().Equals(door.GetEntityId()));
     }
 }

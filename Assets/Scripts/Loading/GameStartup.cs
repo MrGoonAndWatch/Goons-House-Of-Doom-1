@@ -16,7 +16,7 @@ public class GameStartup : MonoBehaviour
 
     private void LoadSaveGameData()
     {
-        var loadGameData = FindObjectOfType<LoadGameData>();
+        var loadGameData = FindAnyObjectByType<LoadGameData>();
         if (loadGameData == null)
             return;
 
@@ -38,19 +38,19 @@ public class GameStartup : MonoBehaviour
 
         var targetScene = _sceneLoadData == null ? SceneNames.MainHall : _sceneLoadData.TargetScene;
 
-        if (_sceneLoadData != null && _sceneLoadData.LoadPosition.HasValue)
+        if (_sceneLoadData != null && _sceneLoadData.LoadPosition != null)
         {
-            Player.transform.position = _sceneLoadData.LoadPosition.Value;
+            Player.transform.position = _sceneLoadData.LoadPosition.ToVector3();
         }
 
-        if (_sceneLoadData != null && _sceneLoadData.LoadRotation.HasValue)
+        if (_sceneLoadData != null && _sceneLoadData.LoadRotation != null)
         {
-            Player.transform.eulerAngles = _sceneLoadData.LoadRotation.Value;
+            Player.transform.eulerAngles = _sceneLoadData.LoadRotation.ToVector3();
         }
 
         if (_gameState != null)
         {
-            var dataSaver = FindObjectOfType<DataSaver>();
+            var dataSaver = FindAnyObjectByType<DataSaver>();
             dataSaver.LoadGameStateFromFileData(_gameState);
         }
 

@@ -14,8 +14,8 @@ public class WeaponInput : MonoBehaviour
     
     void Start()
     {
-        _playerStatus = FindObjectOfType<PlayerStatus>();
-        _playerInventory = FindObjectOfType<PlayerInventory>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
+        _playerInventory = FindAnyObjectByType<PlayerInventory>();
     }
     
     void Update()

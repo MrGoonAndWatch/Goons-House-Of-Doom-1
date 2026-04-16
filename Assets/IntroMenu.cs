@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -45,7 +44,7 @@ public class IntroMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _menuTabProcessing = FindObjectOfType<MenuTabProcessing>();
+        _menuTabProcessing = FindAnyObjectByType<MenuTabProcessing>();
 
         if (VideoPlayer == null)
         {
@@ -161,7 +160,7 @@ public class IntroMenu : MonoBehaviour
     {
         _menuTabProcessing.StopProcessing();
         // TODO: Going back to title screen breaks horribly!
-        //var hordeModeObj = FindObjectOfType<HordeModeManager>();
+        //var hordeModeObj = FindAnyObjectByType<HordeModeManager>();
         //if (hordeModeObj == null)
             Application.Quit();
         //else
@@ -323,9 +322,9 @@ public class IntroMenu : MonoBehaviour
             return;
 
         var saveData = File.ReadAllText(targetFilePath);
-        var gameState = JsonConvert.DeserializeObject<DataSaver.GameState>(saveData);
+        var gameState = JsonUtility.FromJson<DataSaver.GameState>(saveData);
 
-        var loadGameData = FindObjectOfType<LoadGameData>();
+        var loadGameData = FindAnyObjectByType<LoadGameData>();
         loadGameData.SetGameState(gameState);
 
         SceneManager.LoadScene(SceneNames.GameStartup);

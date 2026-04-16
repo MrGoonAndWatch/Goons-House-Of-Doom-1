@@ -8,7 +8,7 @@ public class ChangeCamera : MonoBehaviour
     void Start()
     {
         if(Camera == null)
-            Camera = FindObjectOfType<Camera>();
+            Camera = FindAnyObjectByType<Camera>();
     }
 
     void OnTriggerEnter(Collider other)

@@ -22,7 +22,7 @@
 
     public override bool UseItem()
     {
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         playerStatus.SetHealth(40);
         return true;
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,7 +49,7 @@ public class DataSaver : MonoBehaviour
         _gameState.TriggeredEvents = _gameState.TriggeredEvents.Union(playerStatus.TriggeredEvents.Select(e => (int)e)).Distinct().ToArray();
         if(playerStatus.EquipedWeapon != null)
             for (var i = 0; i < playerInventory.Items.Length; i++)
-                if (playerInventory.Items[i].Item != null && playerStatus.EquipedWeapon.GetInstanceID() == playerInventory.Items[i].Item.GetInstanceID())
+                if (playerInventory.Items[i].Item != null && playerStatus.EquipedWeapon.GetEntityId().Equals(playerInventory.Items[i].Item.GetEntityId()))
                     _gameState.EquipedWeaponIndex = i;
     }
 
@@ -80,8 +81,8 @@ public class DataSaver : MonoBehaviour
     public void LoadGameStateFromFileData(GameState data)
     {
         _gameState = data;
-        var playerStatus = FindObjectOfType<PlayerStatus>();
-        var playerInventory = FindObjectOfType<PlayerInventory>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
+        var playerInventory = FindAnyObjectByType<PlayerInventory>();
         LoadFromGameState(playerStatus, playerInventory);
     }
 
@@ -150,6 +151,7 @@ public class DataSaver : MonoBehaviour
         public int[] DoorsUnlocked;
     }
 
+    [Serializable]
     public class ItemState
     {
         public string ItemType;
@@ -157,9 +159,33 @@ public class DataSaver : MonoBehaviour
     }
 }
 
+[Serializable]
 public class SceneLoadData
 {
     public string TargetScene;
-    public Vector3? LoadPosition;
-    public Vector3? LoadRotation;
+    public SerializableVector3 LoadPosition;
+    public SerializableVector3 LoadRotation;
+}
+
+[Serializable]
+public class SerializableVector3
+{
+    public float x;
+    public float y;
+    public float z;
+
+    public Vector3 ToVector3()
+    {
+        return new Vector3(x, y, z);
+    }
+
+    public static SerializableVector3 FromVector3(Vector3 vector3)
+    {
+        return new SerializableVector3
+        {
+            x = vector3.x,
+            y = vector3.y,
+            z = vector3.z
+        };
+    }
 }

@@ -33,7 +33,7 @@ public class ConveyorBelt : MonoBehaviour
 
     void OnCollisionExit(Collision c)
     {
-        var instanceId = c.collider.gameObject.GetInstanceID();
-        _pushObjects.RemoveAll(p => p.GetInstanceID() == instanceId);
+        var instanceId = c.collider.gameObject.GetEntityId();
+        _pushObjects.RemoveAll(p => p.GetEntityId().Equals(instanceId));
     }
 }

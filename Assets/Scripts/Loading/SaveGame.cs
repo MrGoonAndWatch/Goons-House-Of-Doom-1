@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -68,16 +67,16 @@ public class SaveGame : MonoBehaviour
 
     private void CreateSaveFile(string filename = null)
     {
-        var playerStatus = FindObjectOfType<PlayerStatus>();
-        var playerInventory = FindObjectOfType<PlayerInventory>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
+        var playerInventory = FindAnyObjectByType<PlayerInventory>();
         var sceneInfo = new SceneLoadData
         {
             TargetScene = SceneManager.GetActiveScene().name,
-            LoadPosition = playerStatus.gameObject.transform.position,
-            LoadRotation = playerStatus.gameObject.transform.eulerAngles,
+            LoadPosition = SerializableVector3.FromVector3(playerStatus.gameObject.transform.position),
+            LoadRotation = SerializableVector3.FromVector3(playerStatus.gameObject.transform.eulerAngles),
         };
 
-        var saver = FindObjectOfType<DataSaver>();
+        var saver = FindAnyObjectByType<DataSaver>();
         saver.SaveGameStateFromScene(playerStatus, playerInventory, sceneInfo);
         var data = saver.GetGameState();
 
@@ -87,7 +86,7 @@ public class SaveGame : MonoBehaviour
 
         var fullFilePath = _fullGameSavePath + newFilename;
 
-        var dataJson = JsonConvert.SerializeObject(data);
+        var dataJson = JsonUtility.ToJson(data, false);
         File.WriteAllText(fullFilePath, dataJson);
         if (!string.IsNullOrEmpty(filename))
         {
@@ -100,7 +99,7 @@ public class SaveGame : MonoBehaviour
 
     public void Open()
     {
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         if (playerStatus != null)
             playerStatus.HasSaveUiOpen = true;
 
@@ -118,7 +117,7 @@ public class SaveGame : MonoBehaviour
     {
         _menuOpened = false;
 
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         if (playerStatus != null)
             playerStatus.HasSaveUiOpen = false;
         SaveGameUi.SetActive(false);

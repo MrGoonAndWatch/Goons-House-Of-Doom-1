@@ -153,7 +153,7 @@ public class SoundManager : MonoBehaviour
     {
         if (Instance == null || 
             (!forcePlay && Instance.Music.Source.isPlaying) || 
-            (Instance.Music.Source.clip != null && Instance.Music.Source.clip.GetInstanceID() == song.GetInstanceID()))
+            (Instance.Music.Source.clip != null && Instance.Music.Source.clip.GetEntityId().Equals(song.GetEntityId())))
             return;
 
         PlaySound(Instance.Music.Source, song, true);

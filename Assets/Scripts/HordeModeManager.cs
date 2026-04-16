@@ -27,8 +27,8 @@ public class HordeModeManager : MonoBehaviour
     
     private void Start()
     {
-        _playerStatus = FindObjectOfType<PlayerStatus>();
-        _enemySpawners = FindObjectsOfType<EnemySpawner>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
+        _enemySpawners = FindObjectsByType<EnemySpawner>();
         _nextSpawnRateTime = IncreaseSpawnRatePerSeconds;
         _survivalTimer = GetComponent<CountupDisplay>();
     }

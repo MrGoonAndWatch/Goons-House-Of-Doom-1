@@ -15,8 +15,8 @@ public class SimpleLock : MonoBehaviour
 
     void Start()
     {
-        _textReader = FindObjectOfType<TextReader>();
-        _playerInventory = FindObjectOfType<PlayerInventory>();
+        _textReader = FindAnyObjectByType<TextReader>();
+        _playerInventory = FindAnyObjectByType<PlayerInventory>();
     }
 
     public virtual void Inspect()

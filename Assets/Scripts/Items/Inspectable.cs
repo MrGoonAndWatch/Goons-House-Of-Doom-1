@@ -25,7 +25,7 @@ public class Inspectable : MonoBehaviour
 
         if (EventToTrigger != GlobalEvent.None)
         {
-            var playerStatus = FindObjectOfType<PlayerStatus>();
+            var playerStatus = FindAnyObjectByType<PlayerStatus>();
             playerStatus.TriggeredEvent(EventToTrigger);
         }
     }

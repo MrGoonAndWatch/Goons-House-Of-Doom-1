@@ -18,13 +18,13 @@ public class SceneChanger : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         if (DataSaver == null)
-            DataSaver = FindObjectOfType<DataSaver>();
+            DataSaver = FindAnyObjectByType<DataSaver>();
     }
 
     public void ChangeScene(SceneLoadData sceneLoadData, DoorLoadType doorScene = DoorLoadType.None)
     {
-        var playerStatus = FindObjectOfType<PlayerStatus>();
-        var playerInventory = FindObjectOfType<PlayerInventory>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
+        var playerInventory = FindAnyObjectByType<PlayerInventory>();
         DataSaver.SaveGameStateFromScene(playerStatus, playerInventory, sceneLoadData);
 
         if (doorScene == DoorLoadType.None)
@@ -32,9 +32,9 @@ public class SceneChanger : MonoBehaviour
         else
             SceneManager.LoadScene(doorScene.ToString());
 
-        var useKey = FindObjectOfType<UseKey>();
+        var useKey = FindAnyObjectByType<UseKey>();
         useKey.ResetState();
-        var pickupItem = FindObjectOfType<PickupItem>();
+        var pickupItem = FindAnyObjectByType<PickupItem>();
         pickupItem.ResetState();
     }
 
@@ -43,13 +43,13 @@ public class SceneChanger : MonoBehaviour
         var sceneLoadData = DataSaver.GetSceneLoadData();
         SceneManager.LoadScene(sceneLoadData.TargetScene);
 
-        if(sceneLoadData.LoadPosition.HasValue)
-            transform.position = sceneLoadData.LoadPosition.Value;
-        if(sceneLoadData.LoadRotation.HasValue)
-            transform.eulerAngles = sceneLoadData.LoadRotation.Value;
+        if(sceneLoadData.LoadPosition != null)
+            transform.position = sceneLoadData.LoadPosition.ToVector3();
+        if(sceneLoadData.LoadRotation != null)
+            transform.eulerAngles = sceneLoadData.LoadRotation.ToVector3();
 
-        var playerStatus = FindObjectOfType<PlayerStatus>();
-        var playerInventory = FindObjectOfType<PlayerInventory>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
+        var playerInventory = FindAnyObjectByType<PlayerInventory>();
         DataSaver.LoadFromGameState(playerStatus, playerInventory);
     }
 }

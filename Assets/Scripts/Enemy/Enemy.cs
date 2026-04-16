@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         if (PlayerStatus == null)
-            PlayerStatus = FindObjectOfType<PlayerStatus>();
+            PlayerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     protected float DistanceToPlayer()

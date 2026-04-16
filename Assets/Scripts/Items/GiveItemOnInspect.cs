@@ -11,8 +11,8 @@ public class GiveItemOnInspect : Inspectable
 
     void Start()
     {
-        _playerInventory = FindObjectOfType<PlayerInventory>();
-        _textReader = FindObjectOfType<TextReader>();
+        _playerInventory = FindAnyObjectByType<PlayerInventory>();
+        _textReader = FindAnyObjectByType<TextReader>();
     }
 
     public override bool CanInspect()
@@ -32,7 +32,7 @@ public class GiveItemOnInspect : Inspectable
 
             if (EventToTrigger != GlobalEvent.None)
             {
-                var playerStatus = FindObjectOfType<PlayerStatus>();
+                var playerStatus = FindAnyObjectByType<PlayerStatus>();
                 playerStatus.TriggeredEvent(EventToTrigger);
             }
 

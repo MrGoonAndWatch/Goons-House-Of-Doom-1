@@ -21,7 +21,7 @@ public class Boulder : MonoBehaviour
         _direction = (Destination - gameObject.transform.position).normalized;
         _active = true;
 
-        _playerStatus = FindObjectOfType<PlayerStatus>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     private void Update()

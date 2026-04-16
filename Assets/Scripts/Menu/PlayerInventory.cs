@@ -37,7 +37,7 @@ public class PlayerInventory : MonoBehaviour
 
     void Start()
     {
-        _playerStatus = FindObjectOfType<PlayerStatus>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
         ItemDirty = new bool[6];
         for (var i = 0; i < ItemDirty.Length; i++)
         {
@@ -327,7 +327,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (Items[_currentItemIndex].Item is Weapon)
                 {
-                    if (_playerStatus.EquipedWeapon == null || _playerStatus.EquipedWeapon.GetInstanceID() != Items[_currentItemIndex].Item.GetInstanceID())
+                    if (_playerStatus.EquipedWeapon == null || !_playerStatus.EquipedWeapon.GetEntityId().Equals(Items[_currentItemIndex].Item.GetEntityId()))
                         menuAction.Textbox.text = "EQUIP";
                     else
                         menuAction.Textbox.text = "UNEQUIP";

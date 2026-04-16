@@ -39,9 +39,9 @@
 
     public override bool UseItem()
     {
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         playerStatus.EquipWeapon(this);
-        var menu = FindObjectOfType<PlayerInventory>();
+        var menu = FindAnyObjectByType<PlayerInventory>();
         menu.EquipDirty = true;
         return false;
     }

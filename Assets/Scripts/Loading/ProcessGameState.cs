@@ -10,13 +10,13 @@ public class ProcessGameState : MonoBehaviour
 
     private static void LoadGameStateToScene()
     {
-        var dataSaver = FindObjectOfType<DataSaver>();
+        var dataSaver = FindAnyObjectByType<DataSaver>();
         var gameState = dataSaver.GetGameState();
 
-        var enemies = FindObjectsOfType<DamageHandler>();
-        var doors = FindObjectsOfType<Door>();
-        var items = FindObjectsOfType<Item>();
-        var inspectables = FindObjectsOfType<Inspectable>();
+        var enemies = FindObjectsByType<DamageHandler>();
+        var doors = FindObjectsByType<Door>();
+        var items = FindObjectsByType<Item>();
+        var inspectables = FindObjectsByType<Inspectable>();
 
         DestroyPreviouslyKilledEnemies(gameState, enemies);
         UnlockPreviouslyUnlockedDoors(gameState, doors);

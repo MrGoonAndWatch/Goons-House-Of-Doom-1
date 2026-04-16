@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
 
     void Start()
     {
-        _textReader = FindObjectOfType<TextReader>();
+        _textReader = FindAnyObjectByType<TextReader>();
         if (LocksWith == KeyType.None && UnlocksOnEvent == GlobalEvent.None)
             _unlocked = true;
     }
@@ -30,12 +30,12 @@ public class Door : MonoBehaviour
     {
         if (_unlocked)
         {
-            var sceneChanger = FindObjectOfType<SceneChanger>();
+            var sceneChanger = FindAnyObjectByType<SceneChanger>();
             var sceneChangeInfo = new SceneLoadData
             {
                 TargetScene = GoesToRoom,
-                LoadPosition = StartAtPosition,
-                LoadRotation = StartAtAngle,
+                LoadPosition = SerializableVector3.FromVector3(StartAtPosition),
+                LoadRotation = SerializableVector3.FromVector3(StartAtAngle),
             };
             sceneChanger.ChangeScene(sceneChangeInfo, DoorLoadType);
         }
@@ -49,7 +49,7 @@ public class Door : MonoBehaviour
             return;
 
         _unlocked = true;
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         playerStatus.UnlockDoor(DoorId);
         if (UnlockText.Any())
             _textReader.ReadText(UnlockText);
@@ -61,7 +61,7 @@ public class Door : MonoBehaviour
             return;
         
         _unlocked = true;
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         playerStatus.UnlockDoor(DoorId);
     }
 

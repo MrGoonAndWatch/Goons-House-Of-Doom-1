@@ -16,7 +16,7 @@ public class DamageHandler : MonoBehaviour
     void Start()
     {
         _hp = MaxHp;
-        _hordeModeManager = FindObjectOfType<HordeModeManager>();
+        _hordeModeManager = FindAnyObjectByType<HordeModeManager>();
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class DamageHandler : MonoBehaviour
             _dead = true;
             if (EnemyId != 0)
             {
-                var playerStatus = FindObjectOfType<PlayerStatus>();
+                var playerStatus = FindAnyObjectByType<PlayerStatus>();
                 playerStatus.KillEnemy(EnemyId);
             }
 

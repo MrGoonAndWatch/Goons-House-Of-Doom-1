@@ -9,9 +9,9 @@
     void Awake()
     {
         if (TextReader == null)
-            TextReader = FindObjectOfType<TextReader>();
+            TextReader = FindAnyObjectByType<TextReader>();
         if (CutsceneManager == null)
-            CutsceneManager = FindObjectOfType<CutsceneManager>();
+            CutsceneManager = FindAnyObjectByType<CutsceneManager>();
     }
 
     public override void OnUsed()
@@ -27,7 +27,7 @@
         }
         else
         {
-            var countdownDisplay = FindObjectOfType<CountdownDisplay>();
+            var countdownDisplay = FindAnyObjectByType<CountdownDisplay>();
             var result = countdownDisplay.StartCountdown();
             if (result)
             {

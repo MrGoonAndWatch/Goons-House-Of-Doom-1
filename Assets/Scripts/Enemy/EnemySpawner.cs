@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         _secondsUntilSpawn = SpawnRateInSeconds - FirstSpawnOffsetInSeconds;
-        _playerStatus = FindObjectOfType<PlayerStatus>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     private void Update()

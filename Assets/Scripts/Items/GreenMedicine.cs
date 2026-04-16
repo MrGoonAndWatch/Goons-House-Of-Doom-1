@@ -34,7 +34,7 @@
 
     public override bool UseItem()
     {
-        var playerStatus = FindObjectOfType<PlayerStatus>();
+        var playerStatus = FindAnyObjectByType<PlayerStatus>();
         playerStatus.AddHealth(GameConstants.GreenMedicineHp);
         return true;
     }

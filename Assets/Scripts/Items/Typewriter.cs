@@ -23,7 +23,7 @@
     public override bool UseItem()
     {
         // TODO: Make sure we're colliding with a save surface.
-        var gameSaver = FindObjectOfType<SaveGame>();
+        var gameSaver = FindAnyObjectByType<SaveGame>();
         gameSaver.Open();
         return true;
     }

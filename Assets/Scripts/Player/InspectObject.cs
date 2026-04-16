@@ -12,7 +12,7 @@ public class InspectObject : MonoBehaviour
 
     void Start()
     {
-        _playerStatus = FindObjectOfType<PlayerStatus>();
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
         _touchingInspectables = new List<Inspectable>();
     }
     
@@ -46,7 +46,7 @@ public class InspectObject : MonoBehaviour
         if (item == null)
             return;
 
-        _touchingInspectables.RemoveAll(i => i.GetInstanceID() == item.GetInstanceID());
+        _touchingInspectables.RemoveAll(i => i.GetEntityId().Equals(item.GetEntityId()));
     }
 
     void OnCollisionEnter(Collision c)
@@ -64,6 +64,6 @@ public class InspectObject : MonoBehaviour
         if (inspectable == null)
             return;
 
-        _touchingInspectables.RemoveAll(i => i.GetInstanceID() == inspectable.GetInstanceID());
+        _touchingInspectables.RemoveAll(i => i.GetEntityId().Equals(inspectable.GetEntityId()));
     }
 }

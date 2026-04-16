@@ -10,7 +10,7 @@ public class HordeModeStartup : MonoBehaviour
     {
         if (!_initialized)
         {
-            _playerInventory = FindObjectOfType<PlayerInventory>();
+            _playerInventory = FindAnyObjectByType<PlayerInventory>();
             AddUnlimitedHandgun();
             StartMusic();
             _initialized = true;
