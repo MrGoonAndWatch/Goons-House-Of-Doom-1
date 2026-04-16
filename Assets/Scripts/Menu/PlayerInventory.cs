@@ -120,7 +120,7 @@ public class PlayerInventory : MonoBehaviour
 
         SoundManager.PlayMenuSelectSfx();
 
-        if (_combiningItems && _comboSelectionIndex != _currentItemIndex)
+        if (_combiningItems && _comboSelectionIndex != _currentItemIndex && Items[_comboSelectionIndex].Item != null)
             CombineItems(_comboSelectionIndex, _currentItemIndex);
         else if (_actionMenuOpen)
             DoAction();
